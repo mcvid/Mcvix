@@ -822,6 +822,7 @@ section button{
     position: fixed;
     bottom: 0;
     left: 0;
+    top: 90%;
     width: fit-content;
     height: 40px;
     background-color: #181818;
