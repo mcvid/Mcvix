@@ -500,6 +500,7 @@ bottom: 0;
 }
 
 .side-bar {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
