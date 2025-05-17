@@ -153,6 +153,24 @@ avatar.addEventListener('click', () => {
   dropdown.style.display = isDropdownOpen ? 'block' : 'none';
   rightPanel.style.display = isDropdownOpen ? 'none' : 'flex';
 });
+
+// Prevent right panel from appearing on any click on mobile
+document.addEventListener('click', (event) => {
+  const isMobile = window.innerWidth <= 768;
+  const profileContainer = document.querySelector('.profile-menu-container');
+  const dropdown = document.getElementById('profileDropdown');
+  const rightPanel = document.querySelector('.right-panel');
+  const mainContent = document.querySelector('.main-content');
+
+  if (isMobile) {
+    // Only toggle dropdown and right panel if click is inside profile menu container
+    if (!profileContainer.contains(event.target)) {
+      dropdown.style.display = 'none';
+      rightPanel.style.display = 'none'; // Hide right panel on mobile when clicking outside
+      mainContent.style.right = '0'; // Adjust main content accordingly
+    }
+  }
+});
 function toggleDropdown() {
   const dropdown = document.getElementById("profileDropdown");
   const rightPanel = document.querySelector(".right-panel");
