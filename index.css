@@ -863,7 +863,7 @@ section button{
 
   .nav-links {
     flex-direction: row;
-    gap: 0px;
+    gap: 10px;
     width: 100%;
     justify-content: space-around;
   }
@@ -894,13 +894,12 @@ section button{
 
 
 .profile-avatar {
-    display: block;
+    display: inline-block;
     position: relative;
     z-index: 10002;
   }
 
   .main-content {
-    width: 50%;
     position: fixed;
     top: 60px; 
     left: 0;
