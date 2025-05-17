@@ -900,6 +900,7 @@ section button{
   }
 
   .main-content {
+    width: auto;
     position: fixed;
     top: 60px; 
     left: 0;
