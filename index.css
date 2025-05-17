@@ -426,9 +426,10 @@ gap: 10px;
   padding: 10px 0;
 }
 .filter-bar {
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  /* Removed sticky positioning as per request */
+  position: static;
+  top: auto;
+  z-index: auto;
   display: flex;
   gap: 10px;
   padding: 16px 20px;
@@ -789,6 +790,24 @@ section button{
     display: none;
   }
 
+  /* Hide logo */
+  .logo {
+    display: none;
+  }
+
+  /* Show search container fixed at top */
+  .search-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: #121212;
+    padding: 10px 20px;
+    z-index: 10001;
+    border-bottom: 1px solid #2a2a2a;
+  }
+
   /* Sidebar moves to bottom */
   .side-bar {
     position: fixed;
@@ -863,10 +882,20 @@ section button{
     color: #1ed760;
   }
 
-  /* Main content fills above the bottom sidebar */
+  /* Hide all tooltip containers except profile menu container */
+  .tooltip-container {
+    display: none;
+  }
+  .profile-menu-container {
+    display: inline-block;
+    position: relative;
+    z-index: 10002;
+  }
+
+  /* Main content fills below search bar and above bottom sidebar */
   .main-content {
     position: fixed;
-    top: 88px;
+    top: 60px; /* height of search container */
     left: 0;
     right: 0;
     bottom: 60px; /* height of bottom sidebar */
@@ -875,6 +904,7 @@ section button{
     border: none;
     padding: 10px;
     overflow-y: auto;
+    z-index: 1;
   }
 }
 
