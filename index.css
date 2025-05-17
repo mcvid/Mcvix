@@ -893,9 +893,6 @@ section button{
     display: none;
   }
 }
-.bottom-nav {
-  display: none; /* hide by default */
-}
 
 @media (max-width: 600px) {
   .bottom-nav {
