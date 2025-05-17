@@ -812,7 +812,7 @@ section button{
     top: 0;
     left: 0;
     right: 0;
-    width: 100px;
+    width: auto;
     background-color: #121212;
     padding: 10px 20px;
     z-index: 10001;
@@ -836,7 +836,7 @@ section button{
   }
   .side-bar .buttons {
     margin: 2px;
-    gap: 20px;
+    gap: 10px;
     padding: 0;
     display: flex;
     width: auto;
@@ -844,7 +844,7 @@ section button{
   }
 
   .side-bar .buttons button.bts {
-    padding: 10px;
+    padding: 0;
     width: 40px;
     height: 40px;
     font-size: 0;
@@ -863,7 +863,7 @@ section button{
 
   .nav-links {
     flex-direction: row;
-    gap: 20px;
+    gap: 0px;
     width: 100%;
     justify-content: space-around;
   }
