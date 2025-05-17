@@ -207,7 +207,18 @@ function scrollSlider(direction) {
     slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
   }
 }
-
+document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
+  item.addEventListener('click', function(e) {
+    e.preventDefault();
+    const section = this.getAttribute('data-section');
+    // Implement your logic to display the corresponding section
+    // For example:
+    showSection(section);
+    // Update active state
+    document.querySelectorAll('.bottom-nav .nav-item').forEach(nav => nav.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
 function scrollSlider(direction) {
   const slider = document.getElementById('Made');
   const scrollAmount = 300; // adjust this as needed
