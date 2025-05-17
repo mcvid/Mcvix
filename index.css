@@ -53,9 +53,34 @@
 .top-bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 10px 20px;
-  gap: 30px;
+  gap: 15px;
+  max-width: 900px; /* limit width to make it smaller */
+  margin: 0 auto; /* center horizontally */
+}
+
+.search-container {
+  position: relative;
+  width: 300px; /* smaller width to fit profile menu */
+}
+
+.search-bar {
+  width: 100%; /* fill container */
+  height: 36px;
+  padding: 6px 35px 6px 40px;
+  border-radius: 20px;
+  background-color: #1f1f1f;
+  color: white;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+  margin-left: auto; /* push to right */
 }
 .profile-avatar {
   background-color: #1db954;
@@ -817,7 +842,7 @@ section button{
     height: 60px;
     background-color: #181818;
     border-radius: 0;
-    border: none;
+    border-top: 1px solid #444; /* light border at top of bottom nav */
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -870,12 +895,16 @@ section button{
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 0; /* remove border radius */
   }
 
   .nav-item a {
     color: #b3b3b3;
     font-size: 20px;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .nav-item a:hover {
