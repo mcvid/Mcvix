@@ -835,11 +835,11 @@ section button{
   
   }
   .side-bar .buttons {
-    margin: 0;
+    margin: 2px;
     gap: 10px;
     padding: 0;
     display: flex;
-    width: 100px;
+    width: auto;
     justify-content: space-around;
   }
 
@@ -893,7 +893,7 @@ section button{
   }
 
 
-.tooltip-container {
+.profile-avatar {
     display: inline-block;
     position: relative;
     z-index: 10002;
