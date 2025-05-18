@@ -260,3 +260,15 @@ function scrollSlider(button, direction) {
     slider.scrollLeft += 300;
   }
 }
+const avatar = document.getElementById('profileToggle');
+    const dropdown = document.getElementById('profileDropdown');
+
+    function toggleDropdown() {
+      dropdown.classList.toggle('open');
+    }
+
+    document.addEventListener('click', e => {
+      if (!avatar.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.remove('open');
+      }
+    });

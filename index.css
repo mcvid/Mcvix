@@ -1886,3 +1886,56 @@ section button{
     color: #000;
   }
 }
+@media (max-width: 600px) {
+  /* Hide the desktop right-panel */
+  .right-panel {
+    display: none !important;
+  }
+
+  /* Profile dropdown becomes a slide-in panel */
+  .profile-dropdown {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 80%;
+    max-width: 300px;
+    background-color: #282828;
+    color: #fff;
+    padding: 20px;
+    box-shadow: -4px 0 12px rgba(0,0,0,0.5);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    z-index: 10002;
+  }
+  .profile-dropdown.open {
+    display: block;
+    transform: translateX(0);
+  }
+
+  /* Dropdown list styling */
+  .profile-dropdown ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .profile-dropdown li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s;
+  }
+  .profile-dropdown li:hover {
+    background: rgba(255,255,255,0.1);
+  }
+  .profile-dropdown hr {
+    border: 0;
+    border-top: 1px solid #3a3a3a;
+    margin: 12px 0;
+  }
+}
