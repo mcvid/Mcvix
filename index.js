@@ -272,3 +272,37 @@ const avatar = document.getElementById('profileToggle');
         dropdown.classList.remove('open');
       }
     });
+    (function() {
+      const avatar   = document.getElementById('profileToggle');
+      const dropdown = document.getElementById('profileDropdown');
+  
+      function isMobile() {
+        return window.innerWidth <= 600;
+      }
+  
+      function openDropdown(e) {
+        e.stopPropagation();
+        if (!isMobile()) return;        // only on phones
+        dropdown.classList.add('open');
+      }
+  
+      function closeDropdown() {
+        dropdown.classList.remove('open');
+      }
+  
+      avatar.addEventListener('click', openDropdown);
+  
+      // clicking anywhere else on the document closes the menu
+      document.addEventListener('click', function(e) {
+        if (!dropdown.contains(e.target) && !avatar.contains(e.target)) {
+          closeDropdown();
+        }
+      });
+  
+      // also close on resize when going back to desktop
+      window.addEventListener('resize', function() {
+        if (!isMobile()) {
+          closeDropdown();
+        }
+      });
+    })();
