@@ -582,10 +582,38 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="index.js"></script>
 <script>
+  sessionStorage.setItem('loggedIn', 'yes');
+  if (sessionStorage.getItem('loggedIn')) {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').style.display         = 'block';
+}
   function validateEmail(e) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
   }
+  function login() {
+  const e = emailInput.value.trim();
+  const p = passwordInput.value;
+  const stored = JSON.parse(localStorage.getItem(e) || 'null');
+  if (!stored)          return alert("Account doesn't exist. Please sign up first.");
+  if (stored.password !== p) return alert("Incorrect password.");
 
+  // Hide auth, show app
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').style.display         = 'block';
+}
+
+function signup() {
+  const e = signupEmail.value.trim();
+  const p = signupPassword.value;
+  if (localStorage.getItem(e)) {
+    return alert("Account already exists. Please log in.");
+  }
+  localStorage.setItem(e, JSON.stringify({ password: p }));
+
+  // Hide auth, show app
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').style.display         = 'block';
+}
   // — Toggle between forms —
   function showSignup() {
     loginForm.style.display  = 'none';
@@ -609,33 +637,14 @@
     signupBtn.disabled = !ok;
   }
 
-  // — Signup logic —
-  function signup() {
-    const e = signupEmail.value.trim();
-    const p = signupPassword.value;
-    if (localStorage.getItem(e)) {
-      return alert("Account already exists. Please log in.");
-    }
+{
     // Store user credential under their email key
     localStorage.setItem(e, JSON.stringify({ password: p }));
     // Immediately go to home
     window.location.href = 'home.html';
   }
 
-  // — Login logic —
-  function login() {
-    const e = emailInput.value.trim();
-    const p = passwordInput.value;
-    const stored = JSON.parse(localStorage.getItem(e) || 'null');
-    if (!stored) {
-      return alert("Account doesn't exist. Please sign up first.");
-    }
-    if (stored.password !== p) {
-      return alert("Incorrect password.");
-    }
-    // Success → home
-    window.location.href = 'home.html';
-  }
+
 
   // — Google Sign‑In callback (optional) —
   function handleCredentialResponse(response) {
