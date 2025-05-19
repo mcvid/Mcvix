@@ -1971,3 +1971,30 @@ section button{
   font-weight: bold;
   cursor: pointer;
 }
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  padding-right: 40px; /* Space for the eye icon */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.eye-icon {
+  width: 24px;
+  height: 24px;
+  color: #1DB954; /* Spotify green */
+}

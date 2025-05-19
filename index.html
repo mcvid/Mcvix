@@ -19,12 +19,21 @@
         placeholder="Email"
         oninput="validateLogin()"
       />
-      <input
-        type="password"
-        id="password"
-        placeholder="Password (min 8 chars)"
-        oninput="validateLogin()"
-      />
+      <div class="password-wrapper">
+        <input
+          type="password"
+          id="password"
+          placeholder="Password (min 8 chars)"
+          oninput="validateLogin()"
+        />
+        <span class="toggle-password" onclick="togglePassword('password', this)">
+          <!-- Spotify-style eye icon SVG -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="eye-icon" viewBox="0 0 16 16">
+            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8z"/>
+            <path d="M8 5.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/>
+          </svg>
+        </span>
+      </div>
       <button id="login-btn" onclick="login()">Login</button>
       <p>
         Don’t have an account?
@@ -41,12 +50,21 @@
         placeholder="Email"
         oninput="validateSignup()"
       />
-      <input
-        type="password"
-        id="signupPassword"
-        placeholder="Password (min 8 chars)"
-        oninput="validateSignup()"
-      />
+      <div class="password-wrapper">
+        <input
+          type="password"
+          id="password"
+          placeholder="Password (min 8 chars)"
+          oninput="validateLogin()"
+        />
+        <span class="toggle-password" onclick="togglePassword('password', this)">
+          <!-- Spotify-style eye icon SVG -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="eye-icon" viewBox="0 0 16 16">
+            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8z"/>
+            <path d="M8 5.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/>
+          </svg>
+        </span>
+      </div>
       <button id="signup-btn" onclick="signup()" disabled>Sign Up</button>
       <p>
         Have an account?
@@ -603,6 +621,17 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="index.js"></script>
 <script>
+function togglePassword(fieldId, toggleIcon) {
+  const input = document.getElementById(fieldId);
+  if (!input) return;
+
+  if (input.type === 'password') {
+    input.type = 'text';
+  } else {
+    input.type = 'password';
+  }
+}
+
   function signup() {
     const e = signupEmail.value.trim();
     const p = signupPassword.value;
@@ -727,8 +756,38 @@ function login() {
   localStorage.setItem("loggedIn","true");
   showApp();
 }
+function login() {
+  const e = emailInput.value.trim();
+  const p = passwordInput.value;
 
-// Logout: clear flag
+  if (p.length < 8) {
+    return alert("Password must contain at least 8 characters");
+  }
+
+  const stored = JSON.parse(localStorage.getItem(e) || 'null');
+  if (!stored) return alert("Account doesn't exist. Please sign up first.");
+  if (stored.password !== p) return alert("Incorrect password.");
+
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+function signup() {
+  const e = signupEmail.value.trim();
+  const p = signupPassword.value;
+
+  if (p.length < 8) {
+    return alert("Password must contain at least 8 characters");
+  }
+
+  if (localStorage.getItem(e)) {
+    return alert("Account already exists. Please log in.");
+  }
+
+  localStorage.setItem(e, JSON.stringify({ password: p }));
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+
 function logout() {
   localStorage.removeItem("loggedIn");
   showLogin();
@@ -736,7 +795,7 @@ function logout() {
 if (loggedIn==="true") showApp();
 else showLogin();
 
-// On load: wire elements & decide which view
+
 window.addEventListener('DOMContentLoaded',()=>{
   window.authScreen     = document.getElementById("auth-screen");
   window.loginForm      = document.getElementById("login-form");
