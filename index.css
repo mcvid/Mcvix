@@ -1000,12 +1000,9 @@ section button{
     display: none;
   }
 }
-@media {
 
-}
-.bottom-nav {
-  display: none; /* hide by default */
-}
+
+
 
 @media (max-width: 600px) {
   .bottom-nav {
@@ -1254,7 +1251,6 @@ gap: 10px;
   padding: 10px 0;
 }
 .filter-bar {
-  /
   position: static;
   top: auto;
   z-index: auto;
@@ -1879,7 +1875,7 @@ section button{
     background: #1DB954;
     color: #000;
   }
-}
+
 @media (max-width: 600px) {
 
   .right-panel {

@@ -15,7 +15,7 @@
       <h2>Welcome Back</h2>
       <input type="email" id="email" placeholder="Email" required oninput="validateLogin()" />
       <input type="password" id="password" placeholder="Password (min 8 chars)" required oninput="validateLogin()" />
-      <button id="login-btn" onclick="login()" disabled>Login</button>
+      <button id="login-btn" onclick="login()" >Login</button>
       <p>
         Don’t have an account?
         <span onclick="showSignup()" class="switch-link"><a href="">Sign up</a></span>
@@ -28,7 +28,7 @@
       <h2>Create Account</h2>
       <input type="email" id="signupEmail" placeholder="Email" required oninput="validateSignup()" />
       <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" required oninput="validateSignup()" />
-      <button id="signup-btn" onclick="signup()" disabled>Sign Up</button>
+      <button id="signup-btn" onclick="signup()" >Sign Up</button>
       <p>
         Already have an account?
         <span onclick="showLogin()" class="switch-link">Log in</span>
@@ -581,5 +581,103 @@
 </div>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="index.js"></script>
+<script>
+  function validateEmail(e) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+  }
+
+  // — Toggle between forms —
+  function showSignup() {
+    loginForm.style.display  = 'none';
+    signupForm.style.display = 'block';
+  }
+  function showLogin() {
+    signupForm.style.display = 'none';
+    loginForm.style.display  = 'block';
+  }
+
+  // — Enable/disable buttons in real time —
+  function validateLogin() {
+    const ok = validateEmail(emailInput.value)
+            && passwordInput.value.length >= 8;
+    loginBtn.disabled = !ok;
+  }
+
+  function validateSignup() {
+    const ok = validateEmail(signupEmail.value)
+            && signupPassword.value.length >= 8;
+    signupBtn.disabled = !ok;
+  }
+
+  // — Signup logic —
+  function signup() {
+    const e = signupEmail.value.trim();
+    const p = signupPassword.value;
+    if (localStorage.getItem(e)) {
+      return alert("Account already exists. Please log in.");
+    }
+    // Store user credential under their email key
+    localStorage.setItem(e, JSON.stringify({ password: p }));
+    // Immediately go to home
+    window.location.href = 'home.html';
+  }
+
+  // — Login logic —
+  function login() {
+    const e = emailInput.value.trim();
+    const p = passwordInput.value;
+    const stored = JSON.parse(localStorage.getItem(e) || 'null');
+    if (!stored) {
+      return alert("Account doesn't exist. Please sign up first.");
+    }
+    if (stored.password !== p) {
+      return alert("Incorrect password.");
+    }
+    // Success → home
+    window.location.href = 'home.html';
+  }
+
+  // — Google Sign‑In callback (optional) —
+  function handleCredentialResponse(response) {
+    const payload = JSON.parse(atob(response.credential.split('.')[1]));
+    const e = payload.email;
+    if (!localStorage.getItem(e)) {
+      return alert("No account found for " + e);
+    }
+    window.location.href = 'home.html';
+  }
+
+  // — On load, wire up everything —
+  window.addEventListener('DOMContentLoaded', () => {
+    // Element refs
+    window.emailInput     = document.getElementById('email');
+    window.passwordInput  = document.getElementById('password');
+    window.signupEmail    = document.getElementById('signupEmail');
+    window.signupPassword = document.getElementById('signupPassword');
+    window.loginBtn       = document.getElementById('login-btn');
+    window.signupBtn      = document.getElementById('signup-btn');
+    window.loginForm      = document.getElementById('login-form');
+    window.signupForm     = document.getElementById('signup-form');
+
+    // Attach validation handlers
+    emailInput.addEventListener('input', validateLogin);
+    passwordInput.addEventListener('input', validateLogin);
+    signupEmail.addEventListener('input', validateSignup);
+    signupPassword.addEventListener('input', validateSignup);
+
+    // Initialize Google Sign‑In if you’re using it:
+    if (window.google && google.accounts && google.accounts.id) {
+      google.accounts.id.initialize({
+        client_id: 'YOUR_GOOGLE_CLIENT_ID',
+        callback: handleCredentialResponse
+      });
+      google.accounts.id.renderButton(
+        document.getElementById('g-signin2'),
+        { theme: 'outline', size: 'large' }
+      );
+    }
+  });
+</script>
+
 </body>
 </html>
