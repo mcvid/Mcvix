@@ -13,291 +13,155 @@
     <!-- LOGIN FORM -->
     <div class="auth-form" id="login-form">
       <h2>Welcome Back</h2>
-      <input type="email" id="email" placeholder="Email" required oninput="validateLogin()" />
-      <input type="password" id="password" placeholder="Password (min 8 chars)" required oninput="validateLogin()" />
-      <button id="login-btn" onclick="login()" >Login</button>
+      <input
+        type="email"
+        id="email"
+        placeholder="Email"
+        oninput="validateLogin()"
+      />
+      <input
+        type="password"
+        id="password"
+        placeholder="Password (min 8 chars)"
+        oninput="validateLogin()"
+      />
+      <button id="login-btn" onclick="login()">Login</button>
       <p>
-      Don’t have an account?
-        <span onclick="showSignup()" class="switch-link"><a>Sign up</a></span>
+        Don’t have an account?
+        <span onclick="showSignup()" class="switch-link">Sign up</span>
       </p>
-      <div id="g-signin2"></div>
     </div>
-  
+
     <!-- SIGNUP FORM -->
     <div class="auth-form" id="signup-form" style="display:none;">
       <h2>Create Account</h2>
-      <input type="email" id="signupEmail" placeholder="Email" required oninput="validateSignup()" />
-      <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" required oninput="validateSignup()" />
-      <button id="signup-btn" onclick="signup()" >Sign Up</button>
+      <input
+        type="email"
+        id="signupEmail"
+        placeholder="Email"
+        oninput="validateSignup()"
+      />
+      <input
+        type="password"
+        id="signupPassword"
+        placeholder="Password (min 8 chars)"
+        oninput="validateSignup()"
+      />
+      <button id="signup-btn" onclick="signup()" disabled>Sign Up</button>
       <p>
-         Have an account?
+        Have an account?
         <span onclick="showLogin()" class="switch-link">Log in</span>
       </p>
     </div>
   </div>
-  
-  </div>
-    <header class="head">
-       <div class="top-bar">
-        <img class="logo" src="image copy 6.png" >
-        <div class="search-container">
-          <input
-            type="search"
-            placeholder="What do you want to play?"
-            class="search-bar"
-            id="searchInput"/>
-          
-          <i class="fa-solid fa-magnifying-glass search-icon"></i>
-          <i class="fa-solid fa-xmark clear-icon" id="clearBtn"></i>
-        </div>
-        <button class="premium-btn">Premium</button>
-    <div class="tooltip-container">
-      <i class="fa-regular fa-bell notification-icon"></i>
-      <span class="custom-tooltip">What's New</span>
-    </div>
-    <div class="tooltip-container">
-      <i class="fa-solid fa-user-group friends-icon"></i>
-      <span class="custom-tooltip">Friends</span>
-    </div>
-    <div class="tooltip-container">
-      <div class="profile-menu-container" onclick="toggleDropdown()">
-        <div class="profile-avatar" id="profileToggle">M</div>
-        <div class="profile-dropdown" id="profileDropdown">
-          <ul>
-            <li><i class="fa-regular fa-user"></i> Profile</li>
-            <li><i class="fa-solid fa-circle-user"></i> Account</li>
-            <li><i class="fa-solid fa-gear"></i> Settings</li>
-            <hr class="lg">
-            <li><i class="fa-solid fa-right-from-bracket"></i> Logout</li>
-          </ul>
-        </div>
+
+  <div id="app" style="display:none;">
+  <header class="head">
+     <div class="top-bar">
+      <img class="logo" src="image copy 6.png" >
+      <div class="search-container">
+        <input
+          type="search"
+          placeholder="What do you want to play?"
+          class="search-bar"
+          id="searchInput"/>
+        
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <i class="fa-solid fa-xmark clear-icon" id="clearBtn"></i>
       </div>
-      <span class="custom-tooltip">Mcvid</span>
+      <button class="premium-btn">Premium</button>
+  <div class="tooltip-container">
+    <i class="fa-regular fa-bell notification-icon"></i>
+    <span class="custom-tooltip">What's New</span>
+  </div>
+  <div class="tooltip-container">
+    <i class="fa-solid fa-user-group friends-icon"></i>
+    <span class="custom-tooltip">Friends</span>
+  </div>
+  <div class="tooltip-container">
+    <div class="profile-menu-container" onclick="toggleDropdown()">
+      <div class="profile-avatar" id="profileToggle">M</div>
+      <div class="profile-dropdown" id="profileDropdown">
+        <ul>
+          <li><i class="fa-regular fa-user"></i> Profile</li>
+          <li><i class="fa-solid fa-circle-user"></i> Account</li>
+          <li><i class="fa-solid fa-gear"></i> Settings</li>
+          <hr class="lg">
+          <li><i class="fa-solid fa-right-from-bracket"></i> Logout</li>
+        </ul>
+      </div>
     </div>
-       </div>
-    </header>
- <div class="main-layout">  
+    <span class="custom-tooltip">Mcvid</span>
+  </div>
+     </div>
+  </header>
+<div class="main-layout">  
 <div class="side-bar">
-        <div class="buttons">
-            <button class="bts" onclick="setActive(this)">Playlists</button>
-            <button class="bts" onclick="setActive(this)">Library</button>
+      <div class="buttons">
+          <button class="bts" onclick="setActive(this)">Playlists</button>
+          <button class="bts" onclick="setActive(this)">Library</button>
+      </div>
+      <nav class="nav-links">
+        <div class="nav-item">
+          <a href="#" data-section="home"><i class="fa fa-home"></i> Home</a>
         </div>
-        <nav class="nav-links">
-          <div class="nav-item">
-            <a href="#" data-section="home"><i class="fa fa-home"></i> Home</a>
-          </div>
-          <div class="nav-item">
-            <a href="#" data-section="library"><i class="fas fa-book"></i> Your Library</a>
-          </div>
-          <div class="nav-item">
-            <a href="#" data-section="create"><i class="fas fa-plus-square"></i> Create Playlist</a>
-          </div>
-          <div class="nav-item">
-            <a href="#" data-section="liked"><i class="fas fa-heart"></i> Liked Songs</a>
-          </div>
-        </nav>
+        <div class="nav-item">
+          <a href="#" data-section="library"><i class="fas fa-book"></i> Your Library</a>
+        </div>
+        <div class="nav-item">
+          <a href="#" data-section="create"><i class="fas fa-plus-square"></i> Create Playlist</a>
+        </div>
+        <div class="nav-item">
+          <a href="#" data-section="liked"><i class="fas fa-heart"></i> Liked Songs</a>
+        </div>
+      </nav>
 </div>
 <div class="main-content">
-  <section id="home" class="section active">
-    <div class="filter-bar">
-      <button class="bts">All</button>
-      <button class="bts">Music</button>
-    </div>
-    <div>
-      <div class="playlist-grid-wrapper">
-        <div class="playlist-grid">
-          <div class="playlist-card">
-            <img src="/image copy 16.png" alt="Liked Songs">
-            <span>Liked Songs</span>
-            <div class="play-hover"><i class="fas fa-play"></i></div>
-          </div>
-          <div class="playlist-card">
-            <img src="/image copy 15.png" alt="Twinkle Twinkle">
-            <span>Twinkle Twinkle</span>
-            <div class="play-hover"><i class="fas fa-play"></i></div>
-          </div>
-          <div class="playlist-card">
-            <img src="energetic.png" alt="Energetic Coding Mix">
-            <span>Energetic Coding Mix</span>
-            <div class="play-hover"><i class="fas fa-play"></i></div>
-          </div>
-          <div class="playlist-card">
-            <img src="chill.png" alt="Chill Coding Mix">
-            <span>Chill Coding Mix</span>
-            <div class="play-hover"><i class="fas fa-play"></i></div>
-          </div>
-          <div class="playlist-card">
-            <img src="/image copy 13.png" alt="Justin Bieber">
-            <span>Justin Bieber</span>
-            <div class="play-hover"><i class="fas fa-play"></i></div>
-          </div>
-      </div>
-    <h2>Made For You</h2>
-    <div class="daily-mix-container">
-      <button class="arrow left" onclick="scrollSlider(this, 'left')">&#8249;</button>
-      <div class="daily-mix-slider" id="MixSlider">
-      <div class="daily-mix-card">
-        <div class="image-wrapper">
-          <img src="/image copy 9.png" alt="Daily Mix Cover">
-          <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-          <div class="mix-labels">
-            <span class="mix-type">For You</span>
-            <span class="mix-number">01</span>
-          </div>
-          <div class="play-icon">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <p class="mix-description">
-          <span class="name">Alan Walker </span><br>Find out the best and more
-        </p>
-      </div>
-      <div class="daily-mix-card">
-        <div class="image-wrapper">
-          <img src="/image copy 10.png" alt="Daily Mix Cover">
-          <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-          <div class="mix-labels">
-            <span class="mix-type">For You</span>
-            <span class="mix-number">02</span>
-          </div>
-          <div class="play-icon">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <p class="mix-description">
-          <span class="name">Adele </span><br>Find out the best and more
-        </p>
-      </div>
-      <div class="daily-mix-card">
-        <div class="image-wrapper">
-          <img src="/image copy 19.png" alt="Daily Mix Cover">
-          <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-          <div class="mix-labels">
-          </div>
-          <div class="play-icon">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <p class="mix-description">
-          <span class="name">Ice Spice</span><br>Find out the best and more
-        </p>
-      </div>
-      <div class="daily-mix-card">
-        <div class="image-wrapper">
-          <img src="/image copy 11.png" alt="Daily Mix Cover">
-          <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-          <div class="mix-labels">
-            <span class="mix-type">For You</span>
-            <span class="mix-number">03</span>
-          </div>
-          <div class="play-icon">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <p class="mix-description">
-          <span class="name">Imagine Dragons </span><br>Find out the best and more
-        </p>
-      </div>
-      <div class="daily-mix-card">
-        <div class="image-wrapper">
-          <img src="/image copy 17.png" alt="Daily Mix Cover">
-          <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-          <div class="mix-labels">
-            <span class="mix-type">Daily Mix</span>
-            <span class="mix-number">01</span>
-          </div>
-          <div class="play-icon">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <p class="mix-description">
-          <span class="name">Central Cee </span><br>Find out the best and more
-        </p>
-      </div>
-      <div class="daily-mix-card">
-        <div class="image-wrapper">
-          <img src="/image copy 12.png" alt="Daily Mix Cover">
-          <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-          <div class="mix-labels">
-            <span class="mix-type">For You</span>
-            <span class="mix-number">04</span>
-          </div>
-          <div class="play-icon">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <p class="mix-description">
-          <span class="name">Fik Famieca </span><br>Find out the best and more
-        </p>
-      </div>
-      <div class="daily-mix-card">
-        <div class="image-wrapper">
-          <img src="/image copy 14.png" alt="Daily Mix Cover">
-          <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-          <div class="mix-labels">
-            </div>
-          <div class="play-icon">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <p class="mix-description">
-          <span class="name">Alan Walker </span><br>Find out the best and more
-        </p>
-      </div>
-      <div class="daily-mix-card">
-        <div class="image-wrapper">
-          <img src="/image copy 8.png" alt="Daily Mix Cover">
-          <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-          <div class="mix-labels">
-            </div>
-          <div class="play-icon">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <p class="mix-description">
-          <span class="name">Alan Walker </span><br>Find out the best and more
-        </p>
-      </div>
-      <div class="daily-mix-card">
-        <div class="image-wrapper">
-          <img src="/image copy 17.png" alt="Daily Mix Cover">
-          <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-          <div class="mix-labels">
-          </div>
-          <div class="play-icon">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <p class="mix-description">
-          <span class="name">Central Cee </span><br>Find out the best and more
-        </p>
-      </div>
-      <div class="daily-mix-card">
-        <div class="image-wrapper">
-          <img src="/image copy 13.png" alt="Daily Mix Cover">
-          <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-          <div class="mix-labels">
-          </div>
-          <div class="play-icon">
-            <i class="fas fa-play"></i>
-          </div>
-        </div>
-        <p class="mix-description">
-          <span class="name">Alan Walker </span><br>Find out the best and more
-        </p>
-      </div>
-    </div>
-    <button class="arrow right" onclick="scrollSlider(this, 'right')">&#8250;</button>
+<section id="home" class="section active">
+  <div class="filter-bar">
+    <button class="bts">All</button>
+    <button class="bts">Music</button>
   </div>
-  <h2>Recommended</h2>
+  <div>
+    <div class="playlist-grid-wrapper">
+      <div class="playlist-grid">
+        <div class="playlist-card">
+          <img src="/image copy 16.png" alt="Liked Songs">
+          <span>Liked Songs</span>
+          <div class="play-hover"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="playlist-card">
+          <img src="/image copy 15.png" alt="Twinkle Twinkle">
+          <span>Twinkle Twinkle</span>
+          <div class="play-hover"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="playlist-card">
+          <img src="energetic.png" alt="Energetic Coding Mix">
+          <span>Energetic Coding Mix</span>
+          <div class="play-hover"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="playlist-card">
+          <img src="chill.png" alt="Chill Coding Mix">
+          <span>Chill Coding Mix</span>
+          <div class="play-hover"><i class="fas fa-play"></i></div>
+        </div>
+        <div class="playlist-card">
+          <img src="/image copy 13.png" alt="Justin Bieber">
+          <span>Justin Bieber</span>
+          <div class="play-hover"><i class="fas fa-play"></i></div>
+        </div>
+    </div>
+  <h2>Made For You</h2>
   <div class="daily-mix-container">
     <button class="arrow left" onclick="scrollSlider(this, 'left')">&#8249;</button>
-    <div class="daily-mix-slider" id="Made">
+    <div class="daily-mix-slider" id="MixSlider">
     <div class="daily-mix-card">
       <div class="image-wrapper">
         <img src="/image copy 9.png" alt="Daily Mix Cover">
         <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
         <div class="mix-labels">
+          <span class="mix-type">For You</span>
+          <span class="mix-number">01</span>
         </div>
         <div class="play-icon">
           <i class="fas fa-play"></i>
@@ -305,20 +169,6 @@
       </div>
       <p class="mix-description">
         <span class="name">Alan Walker </span><br>Find out the best and more
-      </p>
-    </div>
-    <div class="daily-mix-card">
-      <div class="image-wrapper">
-        <img src="/image copy 17.png" alt="Daily Mix Cover">
-        <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-        <div class="mix-labels">
-        </div>
-        <div class="play-icon">
-          <i class="fas fa-play"></i>
-        </div>
-      </div>
-      <p class="mix-description">
-        <span class="name">Central Cee </span><br>Find out the best and more
       </p>
     </div>
     <div class="daily-mix-card">
@@ -326,6 +176,8 @@
         <img src="/image copy 10.png" alt="Daily Mix Cover">
         <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
         <div class="mix-labels">
+          <span class="mix-type">For You</span>
+          <span class="mix-number">02</span>
         </div>
         <div class="play-icon">
           <i class="fas fa-play"></i>
@@ -333,20 +185,6 @@
       </div>
       <p class="mix-description">
         <span class="name">Adele </span><br>Find out the best and more
-      </p>
-    </div>
-    <div class="daily-mix-card">
-      <div class="image-wrapper">
-        <img src="/image copy 11.png" alt="Daily Mix Cover">
-        <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-        <div class="mix-labels">
-        </div>
-        <div class="play-icon">
-          <i class="fas fa-play"></i>
-        </div>
-      </div>
-      <p class="mix-description">
-        <span class="name">Alan Walker </span><br>Find out the best and more
       </p>
     </div>
     <div class="daily-mix-card">
@@ -365,16 +203,50 @@
     </div>
     <div class="daily-mix-card">
       <div class="image-wrapper">
-        <img src="/image copy 12.png" alt="Daily Mix Cover">
+        <img src="/image copy 11.png" alt="Daily Mix Cover">
         <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
         <div class="mix-labels">
+          <span class="mix-type">For You</span>
+          <span class="mix-number">03</span>
         </div>
         <div class="play-icon">
           <i class="fas fa-play"></i>
         </div>
       </div>
       <p class="mix-description">
-        <span class="name">Alan Walker </span><br>Find out the best and more
+        <span class="name">Imagine Dragons </span><br>Find out the best and more
+      </p>
+    </div>
+    <div class="daily-mix-card">
+      <div class="image-wrapper">
+        <img src="/image copy 17.png" alt="Daily Mix Cover">
+        <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+        <div class="mix-labels">
+          <span class="mix-type">Daily Mix</span>
+          <span class="mix-number">01</span>
+        </div>
+        <div class="play-icon">
+          <i class="fas fa-play"></i>
+        </div>
+      </div>
+      <p class="mix-description">
+        <span class="name">Central Cee </span><br>Find out the best and more
+      </p>
+    </div>
+    <div class="daily-mix-card">
+      <div class="image-wrapper">
+        <img src="/image copy 12.png" alt="Daily Mix Cover">
+        <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+        <div class="mix-labels">
+          <span class="mix-type">For You</span>
+          <span class="mix-number">04</span>
+        </div>
+        <div class="play-icon">
+          <i class="fas fa-play"></i>
+        </div>
+      </div>
+      <p class="mix-description">
+        <span class="name">Fik Famieca </span><br>Find out the best and more
       </p>
     </div>
     <div class="daily-mix-card">
@@ -382,7 +254,7 @@
         <img src="/image copy 14.png" alt="Daily Mix Cover">
         <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
         <div class="mix-labels">
-        </div>
+          </div>
         <div class="play-icon">
           <i class="fas fa-play"></i>
         </div>
@@ -396,7 +268,7 @@
         <img src="/image copy 8.png" alt="Daily Mix Cover">
         <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
         <div class="mix-labels">
-        </div>
+          </div>
         <div class="play-icon">
           <i class="fas fa-play"></i>
         </div>
@@ -436,152 +308,462 @@
   </div>
   <button class="arrow right" onclick="scrollSlider(this, 'right')">&#8250;</button>
 </div>
-  <h2>Recommended</h2>
-  <div class="daily-mix-container">
-    <button class="arrow left" onclick="scrollSlider(this, 'left')">&#8249;</button>
-    <div class="daily-mix-slider" id="Made">
-    <div class="daily-mix-card">
-      <div class="image-wrapper">
-        <img src="/image copy 9.png" alt="Daily Mix Cover">
-        <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-        <div class="mix-labels">
-        </div>
-        <div class="play-icon">
-          <i class="fas fa-play"></i>
-        </div>
+<h2>Recommended</h2>
+<div class="daily-mix-container">
+  <button class="arrow left" onclick="scrollSlider(this, 'left')">&#8249;</button>
+  <div class="daily-mix-slider" id="Made">
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 9.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
       </div>
-      <p class="mix-description">
-        <span class="name">Alan Walker </span><br>Find out the best and more
-      </p>
-    </div>
-    <div class="daily-mix-card">
-      <div class="image-wrapper">
-        <img src="/image copy 17.png" alt="Daily Mix Cover">
-        <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-        <div class="mix-labels">
-        </div>
-        <div class="play-icon">
-          <i class="fas fa-play"></i>
-        </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
       </div>
-      <p class="mix-description">
-        <span class="name">Central Cee </span><br>Find out the best and more
-      </p>
     </div>
-    <div class="daily-mix-card">
-      <div class="image-wrapper">
-        <img src="/image copy 10.png" alt="Daily Mix Cover">
-        <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-        <div class="mix-labels">
-        </div>
-        <div class="play-icon">
-          <i class="fas fa-play"></i>
-        </div>
-      </div>
-      <p class="mix-description">
-        <span class="name">Adele </span><br>Find out the best and more
-      </p>
-    </div>
-    <div class="daily-mix-card">
-      <div class="image-wrapper">
-        <img src="/image copy 11.png" alt="Daily Mix Cover">
-        <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-        <div class="mix-labels">
-        </div>
-        <div class="play-icon">
-          <i class="fas fa-play"></i>
-        </div>
-      </div>
-      <p class="mix-description">
-        <span class="name">Alan Walker </span><br>Find out the best and more
-      </p>
-    </div>
-    <div class="daily-mix-card">
-      <div class="image-wrapper">
-        <img src="/image copy 19.png" alt="Daily Mix Cover">
-        <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-        <div class="mix-labels">
-        </div>
-        <div class="play-icon">
-          <i class="fas fa-play"></i>
-        </div>
-      </div>
-      <p class="mix-description">
-        <span class="name">Ice Spice</span><br>Find out the best and more
-      </p>
-    </div>
-    <div class="daily-mix-card">
-      <div class="image-wrapper">
-        <img src="/image copy 12.png" alt="Daily Mix Cover">
-        <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-        <div class="mix-labels">
-        </div>
-        <div class="play-icon">
-          <i class="fas fa-play"></i>
-        </div>
-      </div>
-      <p class="mix-description">
-        <span class="name">Alan Walker </span><br>Find out the best and more
-      </p>
-    </div>
-    <div class="daily-mix-card">
-      <div class="image-wrapper">
-        <img src="/image copy 14.png" alt="Daily Mix Cover">
-        <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
-        <div class="mix-labels">
-        </div>
-        <div class="play-icon">
-          <i class="fas fa-play"></i>
-        </div>
-      </div>
-      <p class="mix-description">
-        <span class="name">Alan Walker </span><br>Find out the best and more
-      </p>
-    </div>
+    <p class="mix-description">
+      <span class="name">Alan Walker </span><br>Find out the best and more
+    </p>
   </div>
-  <button class="arrow right" onclick="scrollSlider(this, 'right')">&#8250;</button>
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 17.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
+      </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
+      </div>
+    </div>
+    <p class="mix-description">
+      <span class="name">Central Cee </span><br>Find out the best and more
+    </p>
+  </div>
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 10.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
+      </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
+      </div>
+    </div>
+    <p class="mix-description">
+      <span class="name">Adele </span><br>Find out the best and more
+    </p>
+  </div>
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 11.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
+      </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
+      </div>
+    </div>
+    <p class="mix-description">
+      <span class="name">Alan Walker </span><br>Find out the best and more
+    </p>
+  </div>
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 19.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
+      </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
+      </div>
+    </div>
+    <p class="mix-description">
+      <span class="name">Ice Spice</span><br>Find out the best and more
+    </p>
+  </div>
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 12.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
+      </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
+      </div>
+    </div>
+    <p class="mix-description">
+      <span class="name">Alan Walker </span><br>Find out the best and more
+    </p>
+  </div>
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 14.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
+      </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
+      </div>
+    </div>
+    <p class="mix-description">
+      <span class="name">Alan Walker </span><br>Find out the best and more
+    </p>
+  </div>
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 8.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
+      </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
+      </div>
+    </div>
+    <p class="mix-description">
+      <span class="name">Alan Walker </span><br>Find out the best and more
+    </p>
+  </div>
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 17.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
+      </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
+      </div>
+    </div>
+    <p class="mix-description">
+      <span class="name">Central Cee </span><br>Find out the best and more
+    </p>
+  </div>
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 13.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
+      </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
+      </div>
+    </div>
+    <p class="mix-description">
+      <span class="name">Alan Walker </span><br>Find out the best and more
+    </p>
+  </div>
 </div>
-  <h2>New Releases</h2>
-  <div class="card-row">
-    <div class="card">
-      <img src="cover3.jpg" alt="Album">
-      <p>New Vibes</p>
+<button class="arrow right" onclick="scrollSlider(this, 'right')">&#8250;</button>
+</div>
+<h2>Recommended</h2>
+<div class="daily-mix-container">
+  <button class="arrow left" onclick="scrollSlider(this, 'left')">&#8249;</button>
+  <div class="daily-mix-slider" id="Made">
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 9.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
+      </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
+      </div>
     </div>
+    <p class="mix-description">
+      <span class="name">Alan Walker </span><br>Find out the best and more
+    </p>
   </div>
-  </section>
-  <section id="search" class="section">
-    <h2>Search</h2>
-  </section>
-  <section id="library" class="section">
-    <h2>Your Library</h2>
-  </section>
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 17.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
+      </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
+      </div>
+    </div>
+    <p class="mix-description">
+      <span class="name">Central Cee </span><br>Find out the best and more
+    </p>
   </div>
-  <section class="right-panel" id="home-right-panel" >
-  </section>
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 10.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
+      </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
+      </div>
+    </div>
+    <p class="mix-description">
+      <span class="name">Adele </span><br>Find out the best and more
+    </p>
+  </div>
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 11.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
+      </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
+      </div>
+    </div>
+    <p class="mix-description">
+      <span class="name">Alan Walker </span><br>Find out the best and more
+    </p>
+  </div>
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 19.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
+      </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
+      </div>
+    </div>
+    <p class="mix-description">
+      <span class="name">Ice Spice</span><br>Find out the best and more
+    </p>
+  </div>
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 12.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
+      </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
+      </div>
+    </div>
+    <p class="mix-description">
+      <span class="name">Alan Walker </span><br>Find out the best and more
+    </p>
+  </div>
+  <div class="daily-mix-card">
+    <div class="image-wrapper">
+      <img src="/image copy 14.png" alt="Daily Mix Cover">
+      <img src="/image copy 6.png" class="spotify-icon" alt="Spotify Logo">
+      <div class="mix-labels">
+      </div>
+      <div class="play-icon">
+        <i class="fas fa-play"></i>
+      </div>
+    </div>
+    <p class="mix-description">
+      <span class="name">Alan Walker </span><br>Find out the best and more
+    </p>
+  </div>
+</div>
+<button class="arrow right" onclick="scrollSlider(this, 'right')">&#8250;</button>
+</div>
+<h2>New Releases</h2>
+<div class="card-row">
+  <div class="card">
+    <img src="cover3.jpg" alt="Album">
+    <p>New Vibes</p>
+  </div>
+</div>
+</section>
+<section id="search" class="section">
+  <h2>Search</h2>
+</section>
+<section id="library" class="section">
+  <h2>Your Library</h2>
+</section>
+</div>
+<section class="right-panel" id="home-right-panel" >
+</section>
 </div>   
 <div class="playing">
 </div>
 <div class="bottom-nav">
-  <a href="#" class="nav-item" data-section="home">
-    <i class="fa fa-home"></i>
-    <span class="label">Home</span>
-  </a>
-  <a href="#" class="nav-item" data-section="library">
-    <i class="fas fa-book"></i>
-    <span class="label">Library</span>
-  </a>
-  <a href="#" class="nav-item" data-section="create">
-    <i class="fas fa-plus-square"></i>
-    <span class="label">Create</span>
-  </a>
-  <a href="#" class="nav-item" data-section="liked">
-    <i class="fas fa-heart"></i>
-    <span class="label">Liked</span>
-  </a>
+<a href="#" class="nav-item" data-section="home">
+  <i class="fa fa-home"></i>
+  <span class="label">Home</span>
+</a>
+<a href="#" class="nav-item" data-section="library">
+  <i class="fas fa-book"></i>
+  <span class="label">Library</span>
+</a>
+<a href="#" class="nav-item" data-section="create">
+  <i class="fas fa-plus-square"></i>
+  <span class="label">Create</span>
+</a>
+<a href="#" class="nav-item" data-section="liked">
+  <i class="fas fa-heart"></i>
+  <span class="label">Liked</span>
+</a>
 </div>
+  </div>
+  
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="index.js"></script>
 <script>
+  function signup() {
+    const e = signupEmail.value.trim();
+    const p = signupPassword.value;
+    if (localStorage.getItem(e)) {
+      alert("That account already exists. Please log in.");
+      return showLogin();
+    }
+    localStorage.setItem(e, JSON.stringify({ password: p }));
+    localStorage.setItem(STORAGE_KEY, "true");
+    showApp();
+  }
+
+  // — Login logic —
+  function login() {
+    const e = emailInput.value.trim();
+    const p = passwordInput.value;
+    const rec = JSON.parse(localStorage.getItem(e) || 'null');
+    if (!rec) {
+      alert("No such account – please sign up.");
+      return showSignup();
+    }
+    if (rec.password !== p) {
+      return alert("Incorrect password.");
+    }
+    localStorage.setItem(STORAGE_KEY, "true");
+    showApp();
+  }
+
+  // — Logout (if you need it) —
+  function logout() {
+    localStorage.removeItem(STORAGE_KEY);
+    showLogin();
+  }
+
+  // — Initialization on page load —
+  window.addEventListener('DOMContentLoaded', () => {
+    // Grab elements
+    authScreen     = document.getElementById("auth-screen");
+    loginForm      = document.getElementById("login-form");
+    signupForm     = document.getElementById("signup-form");
+    app            = document.getElementById("app");
+    emailInput     = document.getElementById("email");
+    passwordInput  = document.getElementById("password");
+    signupEmail    = document.getElementById("signupEmail");
+    signupPassword = document.getElementById("signupPassword");
+    loginBtn       = document.getElementById("login-btn");
+    signupBtn      = document.getElementById("signup-btn");
+
+    // Wire up real‑time validation
+    emailInput.addEventListener('input',   validateLogin);
+    passwordInput.addEventListener('input',validateLogin);
+    signupEmail.addEventListener('input',   validateSignup);
+    signupPassword.addEventListener('input',validateSignup);
+
+    // Wire up toggle links
+    document.querySelector('.switch-link[onclick*="showSignup"]').addEventListener('click', showSignup);
+    document.querySelector('.switch-link[onclick*="showLogin"]').addEventListener('click', showLogin);
+
+    // Wire up buttons
+    loginBtn.addEventListener('click', login);
+    signupBtn.addEventListener('click', signup);
+
+    // Decide initial view
+    if (localStorage.getItem(STORAGE_KEY) === "true") {
+      showApp();
+    } else {
+      showLogin();
+    }
+  });
+  const validEmail = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+
+function showLogin() {
+  loginForm.style.display    = 'block';
+  signupForm.style.display   = 'none';
+  authScreen.style.display   = 'flex';
+  app.style.display          = 'none';
+}
+function showSignup() {
+  loginForm.style.display    = 'none';
+  signupForm.style.display   = 'block';
+  authScreen.style.display   = 'flex';
+  app.style.display          = 'none';
+}
+function showApp() {
+  authScreen.style.display   = 'none';
+  app.style.display          = 'block';
+}
+
+// Real‑time validation
+function validateLogin() {
+  loginBtn.disabled = !(
+    validEmail(email.value.trim()) &&
+    password.value.length >= 8
+  );
+}
+function validateSignup() {
+  signupBtn.disabled = !(
+    validEmail(signupEmail.value.trim()) &&
+    signupPassword.value.length >= 8
+  );
+}
+
+// Signup: store a simple record and mark logged in
+function signup() {
+  const e = signupEmail.value.trim();
+  const p = signupPassword.value;
+  if (localStorage.getItem(e)) {
+    return alert("That account exists already – please log in.");
+  }
+  localStorage.setItem(e, JSON.stringify({password:p}));
+  localStorage.setItem("loggedIn","true");
+  showApp();
+}
+
+// Login: check against storage, then mark logged in
+function login() {
+  const e = email.value.trim();
+  const p = password.value;
+  const rec = JSON.parse(localStorage.getItem(e) || 'null');
+  if (!rec)     return alert("No such account – please sign up.");
+  if (rec.password !== p) return alert("Wrong password.");
+  localStorage.setItem("loggedIn","true");
+  showApp();
+}
+
+// Logout: clear flag
+function logout() {
+  localStorage.removeItem("loggedIn");
+  showLogin();
+}
+if (loggedIn==="true") showApp();
+else showLogin();
+
+// On load: wire elements & decide which view
+window.addEventListener('DOMContentLoaded',()=>{
+  window.authScreen     = document.getElementById("auth-screen");
+  window.loginForm      = document.getElementById("login-form");
+  window.signupForm     = document.getElementById("signup-form");
+  window.app            = document.getElementById("app");
+  window.email          = document.getElementById("email");
+  window.password       = document.getElementById("password");
+  window.signupEmail    = document.getElementById("signupEmail");
+  window.signupPassword = document.getElementById("signupPassword");
+  window.loginBtn       = document.getElementById("login-btn");
+  window.signupBtn      = document.getElementById("signup-btn");
+
+  // Attach real‑time checks
+  email.addEventListener('input',   validateLogin);
+  password.addEventListener('input',validateLogin);
+  signupEmail.addEventListener('input',   validateSignup);
+  signupPassword.addEventListener('input',validateSignup);
+
+  // Show app if already logged in
+  if (localStorage.getItem("loggedIn")==="true") {
+    showApp();
+  } else {
+    showLogin();
+  }
+});
+
+
   sessionStorage.setItem('loggedIn', 'yes');
   if (sessionStorage.getItem('loggedIn')) {
   document.getElementById('auth-screen').style.display = 'none';
