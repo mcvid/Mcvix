@@ -231,7 +231,7 @@ document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
     // Implement your logic to display the corresponding section
     // For example:
     showSection(section);
-    // Update active state
+
     document.querySelectorAll('.bottom-nav .nav-item').forEach(nav => nav.classList.remove('active'));
     this.classList.add('active');
   });
