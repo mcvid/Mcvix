@@ -6,84 +6,266 @@
     <title>Mcvix |sign Up</title>
     <link rel="stylesheet" href="/index.css">
 </head>
+<style>
+    .auth-screen {
+  position: fixed;
+  inset: 0;
+  background: #121212;
+  color: white;
+  font-family: 'Helvetica Neue', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.auth-form {
+  background: #121212;
+  padding: 3rem;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  text-align: left;
+}
+
+.auth-form h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+}
+
+.auth-form label {
+  display: block;
+  margin: 1rem 0 0.25rem;
+  font-weight: 600;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background: #1c1c1c;
+  color: white;
+}
+
+.auth-form button {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  background: #1db954;
+  border: none;
+  border-radius: 999px;
+  font-weight: bold;
+  color: black;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.auth-form button:disabled {
+  background: #2a2a2a;
+  cursor: not-allowed;
+}
+
+.auth-form .link {
+  color: #1db954;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  margin-top: 0.5rem;
+  display: inline-block;
+}
+
+.divider {
+  text-align: center;
+  margin: 2rem 0;
+  position: relative;
+}
+.divider span {
+  background: #121212;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 1;
+}
+.divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0; right: 0;
+  height: 1px;
+  background: #444;
+  z-index: 0;
+}
+
+.oauth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.oauth {
+  background: transparent;
+  border: 1px solid #888;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 999px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.oauth.google::before {
+  content: "G ";
+  font-weight: bold;
+  color: #db4437;
+}
+.oauth.facebook::before {
+  content: "f ";
+  font-weight: bold;
+  color: #4267B2;
+}
+.oauth.apple::before {
+  content: " ";
+  font-weight: bold;
+}
+
+.bottom-text {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+.bottom-text a {
+  color: white;
+  font-weight: bold;
+  text-decoration: underline;
+}
+</style>
 <body>
-    <div id="auth-screen" class="auth-screen">
-        <!-- LOGIN FORM -->
-        <div class="auth-form" id="login-form">
-          <h2>Welcome Back</h2>
-          <input type="email" id="email" placeholder="Email" required />
-          <input type="password" id="password" placeholder="Password (min 8 chars)" required />
-          <button onclick="login()">Login</button>
-          <p>Don't have an account? <span onclick="showSignup()" style="color: #1db954; cursor: pointer;">Sign up</span></p>
-        </div>
-      
-        <!-- SIGNUP FORM -->
-        <div class="auth-form" id="signup-form" style="display: none;">
-          <h2>Create Account</h2>
-          <input type="email" id="signupEmail" placeholder="Email" required />
-          <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" required />
-          <button onclick="signup()">Sign Up</button>
-          <p>Already have an account? <span onclick="showLogin()" style="color: #1db954; cursor: pointer;">Log in</span></p>
-        </div>
-      </div>
-      <script>
-        function showSignup() {
-    document.getElementById("login-form").style.display = "none";
-    document.getElementById("signup-form").style.display = "block";
+    
+<script>
+    function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const users = JSON.parse(localStorage.getItem("users")) || {};
+
+  if (!users[email]) {
+    alert("Account not found. Please sign up first.");
+    return;
   }
 
-  function showLogin() {
-    document.getElementById("signup-form").style.display = "none";
-    document.getElementById("login-form").style.display = "block";
+  if (password.length < 8) {
+    alert("Password must be at least 8 characters.");
+    return;
   }
 
-  function validateEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (users[email].password !== password) {
+    alert("Incorrect password.");
+    return;
   }
 
-  function login() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+  // Store session temporarily
+  sessionStorage.setItem("loggedInUser", email);
 
-    const storedEmail = localStorage.getItem("userEmail");
-    const storedPassword = localStorage.getItem("userPassword");
+  // Redirect or show home page
+  window.location.href = "home.html"; // or your homepage logic
+}
+const loggedIn = sessionStorage.getItem("loggedInUser");
 
-    if (email === storedEmail && password === storedPassword) {
+if (!loggedIn) {
+  alert("You must log in first.");
+  window.location.href = "index.html"; // back to login
+}
+sessionStorage.removeItem('loggedInUser');
+
+    function validateEmail(e) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+    }
+  
+    // --- Toggle Forms ---
+    function showSignup() {
+      loginForm.style.display = 'none';
+      signupForm.style.display = 'block';
+    }
+    function showLogin() {
+      signupForm.style.display = 'none';
+      loginForm.style.display = 'block';
+    }
+  
+    // --- Real‑time Validation ---
+    function validateLogin() {
+      const ok = validateEmail(email.value) && password.value.length >= 8;
+      loginBtn.disabled = !ok;
+    }
+    function validateSignup() {
+      const ok = validateEmail(signupEmail.value) && signupPassword.value.length >= 8;
+      signupBtn.disabled = !ok;
+    }
+  
+    // --- Core Logic ---
+    function login() {
+      const e = email.value, p = password.value;
+      const stored = JSON.parse(localStorage.getItem(e) || 'null');
+  
+      if (!stored) {
+        return alert("Account doesn't exist.");
+      }
+      if (stored.password !== p) {
+        return alert("Wrong password.");
+      }
+      localStorage.setItem("loggedInUser", e);
+      window.location.href = 'home.html';
+    }
+  
+    function signup() {
+      const e = signupEmail.value, p = signupPassword.value;
+      if (localStorage.getItem(e)) {
+        return alert("Account already exists. Please log in.");
+      }
+      localStorage.setItem(e, JSON.stringify({ password: p }));
+      localStorage.setItem("loggedInUser", e);
+      window.location.href = 'home.html';
+    }
+  
+    function handleCredentialResponse(response) {
+    
+      const payload = JSON.parse(atob(response.credential.split('.')[1]));
+      const email = payload.email;
+      if (!localStorage.getItem(email)) {
+        alert("No account found for " + email);
+        return;
+      }
       localStorage.setItem("loggedInUser", email);
-      document.getElementById("auth-screen").style.display = "none";
-    } else {
-      alert("Invalid email or password.");
+      window.location.href = 'home.html';
     }
-  }
+  
+   
+    window.addEventListener('DOMContentLoaded', () => {
+      
+      window.email = document.getElementById('email');
+      window.password = document.getElementById('password');
+      window.signupEmail = document.getElementById('signupEmail');
+      window.signupPassword = document.getElementById('signupPassword');
+      window.loginBtn = document.getElementById('login-btn');
+      window.signupBtn = document.getElementById('signup-btn');
+      window.loginForm = document.getElementById('login-form');
+      window.signupForm = document.getElementById('signup-form');
+  
 
-  function signup() {
-    const email = document.getElementById("signupEmail").value;
-    const password = document.getElementById("signupPassword").value;
-
-    if (!validateEmail(email)) {
-      alert("Enter a valid email.");
-      return;
-    }
-
-    if (password.length < 8) {
-      alert("Password must be at least 8 characters.");
-      return;
-    }
-
-    localStorage.setItem("userEmail", email);
-    localStorage.setItem("userPassword", password);
-    localStorage.setItem("loggedInUser", email);
-    document.getElementById("auth-screen").style.display = "none";
-  }
-
-  // On page load
-  window.onload = () => {
-    if (!localStorage.getItem("loggedInUser")) {
-      document.getElementById("auth-screen").style.display = "flex";
-    } else {
-      document.getElementById("auth-screen").style.display = "none";
-    }
-  };
-      </script>
+      if (!localStorage.getItem('loggedInUser')) {
+        document.getElementById('auth-screen').style.display = 'flex';
+      } else {
+        document.getElementById('auth-screen').style.display = 'none';
+      
+      }
+  
+  
+      google.accounts.id.initialize({
+        client_id: '642285597123-069m3g4j8t49if8u2dp626fi3e02h25u.apps.googleusercontent.com',
+        callback: handleCredentialResponse
+      });
+      google.accounts.id.renderButton(
+        document.getElementById('g-signin2'),
+        { theme: 'outline', size: 'large' }
+      );
+    });
+</script>
 </body>
 </html>

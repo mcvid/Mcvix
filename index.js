@@ -427,3 +427,36 @@ const avatar = document.getElementById('profileToggle');
         { theme: 'outline', size: 'large' }
       );
     });
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const users = JSON.parse(localStorage.getItem("users")) || {};
+    
+      if (!users[email]) {
+        alert("Account not found. Please sign up first.");
+        return;
+      }
+    
+      if (password.length < 8) {
+        alert("Password must be at least 8 characters.");
+        return;
+      }
+    
+      if (users[email].password !== password) {
+        alert("Incorrect password.");
+        return;
+      }
+    
+      // Store session temporarily
+      sessionStorage.setItem("loggedInUser", email);
+    
+      // Redirect or show home page
+      window.location.href = "home.html"; // or your homepage logic
+    }
+    const loggedIn = sessionStorage.getItem("loggedInUser");
+
+    if (!loggedIn) {
+      alert("You must log in first.");
+      window.location.href = "index.html"; // back to login
+    }
+    sessionStorage.removeItem('loggedInUser');    
