@@ -1831,11 +1831,11 @@ section button{
 @media (max-width: 600px) {
   .filter-bar {
     position: fixed;
-    top: 56px;           /* just under the search bar/header */
+    top: 56px;           
     left: 0;
     right: 0;
     display: flex;
-    justify-content: center;  /* center the buttons */
+    justify-content: center;  
     gap: 12px;
     padding: 8px 0;
     background: transparent;
@@ -1844,24 +1844,18 @@ section button{
     z-index: 1001;
   }
 
-  /* space out and shrink the buttons for mobile */
+  
   .filter-bar .bts {
     padding: 6px 12px;
     font-size: 14px;
   }
 }
-@media (max-width: 600px) {
-  /* hide premium & search on mobile */
-  .premium-btn,
-  .search-container {
-    display: none !important;
-  }
 
-  /* pin filter buttons into header next to avatar */
+ 
   .filter-bar {
     position: absolute;
-    top: 12px;      /* align with avatar vertically */
-    left: 56px;     /* move right of 44px avatar + 12px margin */
+    top: 12px;      
+    left: 56px;     
     right: auto;
     display: flex;
     gap: 8px;
@@ -1887,14 +1881,13 @@ section button{
   }
 }
 @media (max-width: 600px) {
-  /* Hide the desktop right-panel */
+
   .right-panel {
     display: none !important;
   }
 
-  /* Profile dropdown becomes a slide-in panel */
   .profile-dropdown {
-    display: none;
+ 
     position: fixed;
     top: 0;
     right: 0;
@@ -1938,4 +1931,47 @@ section button{
     border-top: 1px solid #3a3a3a;
     margin: 12px 0;
   }
+}
+.auth-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("dj.jpg") center/cover no-repeat, rgba(0, 0, 0, 0.8);
+  background-blend-mode: darken;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.auth-form {
+  background-color: #181818;
+  color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.auth-form input {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: 90%;
+  border: none;
+  border-radius: 5px;
+}
+
+.auth-form button {
+  background-color: #1db954;
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  font-weight: bold;
+  cursor: pointer;
 }

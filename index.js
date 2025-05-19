@@ -306,3 +306,176 @@ const avatar = document.getElementById('profileToggle');
         }
       });
     })();
+    document.addEventListener("DOMContentLoaded", function () {
+      const avatar = document.getElementById("profileToggle");
+      const dropdown = document.getElementById("profileDropdown");
+  
+      function isMobile() {
+        return window.innerWidth <= 600;
+      }
+  
+      avatar.addEventListener("click", function (e) {
+        e.stopPropagation();
+        if (isMobile()) {
+          dropdown.classList.toggle("open");
+        }
+      });
+  
+      document.addEventListener("click", function (e) {
+        if (
+          isMobile() &&
+          !dropdown.contains(e.target) &&
+          !avatar.contains(e.target)
+        ) {
+          dropdown.classList.remove("open");
+        }
+      });
+  
+      window.addEventListener("resize", () => {
+        if (!isMobile()) {
+          dropdown.classList.remove("open");
+        }
+      });
+    });
+    function showSignup() {
+      document.querySelector('.auth-form').style.display = "none";
+      document.getElementById('signup-form').style.display = "block";
+    }
+  
+    function showLogin() {
+      document.querySelector('.auth-form').style.display = "block";
+      document.getElementById('signup-form').style.display = "none";
+    }
+  
+    // Login logic
+    function login() {
+      const email = document.getElementById("email").value;
+      const pass = document.getElementById("password").value;
+      const storedEmail = localStorage.getItem("userEmail");
+      const storedPass = localStorage.getItem("userPassword");
+  
+      if (!email || !pass) return alert("Fill in all fields.");
+      if (pass.length < 8) return alert("Password must be at least 8 characters.");
+  
+      if (email === storedEmail && pass === storedPass) {
+        localStorage.setItem("loggedInUser", email);
+        document.getElementById("auth-screen").style.display = "none";
+      } else {
+        alert("Invalid credentials.");
+      }
+    }
+  
+    // Signup logic
+    function signup() {
+      const email = document.getElementById("signupEmail").value;
+      const pass = document.getElementById("signupPassword").value;
+  
+      if (!email.includes("@") || !email.includes(".")) return alert("Enter a valid email.");
+      if (pass.length < 8) return alert("Password must be at least 8 characters.");
+  
+      localStorage.setItem("userEmail", email);
+      localStorage.setItem("userPassword", pass);
+      localStorage.setItem("loggedInUser", email);
+      document.getElementById("auth-screen").style.display = "none";
+    }
+  
+    // Block access if not logged in
+    window.onload = () => {
+      if (!localStorage.getItem("loggedInUser")) {
+        document.getElementById("auth-screen").style.display = "flex";
+      } else {
+        document.getElementById("auth-screen").style.display = "none";
+      }
+    };
+    const form = document.getElementById("authForm");
+const toggleLink = document.getElementById("toggleLink");
+const formTitle = document.getElementById("formTitle");
+const toggleFormText = document.getElementById("toggleFormText");
+const errorMsg = document.getElementById("errorMsg");
+
+let isLogin = true;
+
+toggleLink.addEventListener("click", () => {
+  isLogin = !isLogin;
+  formTitle.textContent = isLogin ? "Login" : "Sign Up";
+  toggleFormText.innerHTML = isLogin
+    ? `Don't have an account? <span id="toggleLink">Sign up</span>`
+    : `Already have an account? <span id="toggleLink">Login</span>`;
+  errorMsg.textContent = "";
+  document.getElementById("toggleLink").addEventListener("click", toggleLink.click);
+});
+
+form.addEventListener("submit")
+function validatePassword(password) {
+  const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{10,}$/;
+  return re.test(password);
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const authForm = document.getElementById('authForm');
+  const formTitle = document.getElementById('form-title');
+  const submitBtn = document.getElementById('submitBtn');
+  const toggleLink = document.getElementById('toggleLink');
+  const toggleText = document.getElementById('toggleText');
+
+  let isLogin = true;
+
+  // Toggle between Login and Sign Up
+  toggleLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    isLogin = !isLogin;
+    formTitle.textContent = isLogin ? 'Log In' : 'Sign Up';
+    submitBtn.textContent = isLogin ? 'Log In' : 'Sign Up';
+    toggleText.innerHTML = isLogin
+      ? `Don't have an account? <a href="#" id="toggleLink">Sign Up</a>`
+      : `Already have an account? <a href="#" id="toggleLink">Log In</a>`;
+  });
+
+  // Form Submission
+  authForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = authForm.email.value.trim();
+    const password = authForm.password.value.trim();
+
+    if (!validateEmail(email)) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    if (password.length < 8) {
+      alert('Password must be at least 8 characters long.');
+      return;
+    }
+
+    if (isLogin) {
+      // Log In Logic
+      const storedUser = JSON.parse(localStorage.getItem(email));
+      if (storedUser && storedUser.password === password) {
+        alert('Login successful!');
+        // Redirect to home page or dashboard
+        window.location.href = 'home.html';
+      } else {
+        alert('Invalid email or password.');
+      }
+    } else {
+      // Sign Up Logic
+      if (localStorage.getItem(email)) {
+        alert('An account with this email already exists.');
+        return;
+      }
+      const user = { email, password };
+      localStorage.setItem(email, JSON.stringify(user));
+      alert('Account created successfully! Please log in.');
+      // Switch to login view
+      isLogin = true;
+      formTitle.textContent = 'Log In';
+      submitBtn.textContent = 'Log In';
+      toggleText.innerHTML = `Don't have an account? <a href="#" id="toggleLink">Sign Up</a>`;
+    }
+  });
+
+  // Email Validation Function
+  function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  }
+});

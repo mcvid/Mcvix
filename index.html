@@ -9,6 +9,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+  <div id="auth-screen" class="auth-screen">
+    <div class="auth-form">
+      <h2>Welcome Back</h2>
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password (min 8 chars)" required />
+      <button onclick="login()">Login</button>
+      <p>Don't have an account? <span onclick="showSignup()">Sign up</span></p>
+    </div>
+  
+    <div class="auth-form" id="signup-form" style="display:none;">
+      <h2>Create Account</h2>
+      <input type="email" id="signupEmail" placeholder="Email" required />
+      <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" required />
+      <button onclick="signup()">Sign Up</button>
+      <p>Already have an account? <span onclick="showLogin()">Log in</span></p>
+    </div>
+  </div>
     <header class="head">
        <div class="top-bar">
         <img class="logo" src="image copy 6.png" >
@@ -17,8 +34,8 @@
             type="search"
             placeholder="What do you want to play?"
             class="search-bar"
-            id="searchInput"
-          />
+            id="searchInput"/>
+          
           <i class="fa-solid fa-magnifying-glass search-icon"></i>
           <i class="fa-solid fa-xmark clear-icon" id="clearBtn"></i>
         </div>
