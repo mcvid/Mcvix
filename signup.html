@@ -4,8 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mcvix |sign Up</title>
+    <link rel="stylesheet" href="/index.css">
 </head>
 <body>
-    
+    <div id="auth-screen" class="auth-screen">
+        <!-- LOGIN FORM -->
+        <div class="auth-form" id="login-form">
+          <h2>Welcome Back</h2>
+          <input type="email" id="email" placeholder="Email" required />
+          <input type="password" id="password" placeholder="Password (min 8 chars)" required />
+          <button onclick="login()">Login</button>
+          <p>Don't have an account? <span onclick="showSignup()" style="color: #1db954; cursor: pointer;">Sign up</span></p>
+        </div>
+      
+        <!-- SIGNUP FORM -->
+        <div class="auth-form" id="signup-form" style="display: none;">
+          <h2>Create Account</h2>
+          <input type="email" id="signupEmail" placeholder="Email" required />
+          <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" required />
+          <button onclick="signup()">Sign Up</button>
+          <p>Already have an account? <span onclick="showLogin()" style="color: #1db954; cursor: pointer;">Log in</span></p>
+        </div>
+      </div>
+      <script>
+        function showSignup() {
+    document.getElementById("login-form").style.display = "none";
+    document.getElementById("signup-form").style.display = "block";
+  }
+
+  function showLogin() {
+    document.getElementById("signup-form").style.display = "none";
+    document.getElementById("login-form").style.display = "block";
+  }
+
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const storedEmail = localStorage.getItem("userEmail");
+    const storedPassword = localStorage.getItem("userPassword");
+
+    if (email === storedEmail && password === storedPassword) {
+      localStorage.setItem("loggedInUser", email);
+      document.getElementById("auth-screen").style.display = "none";
+    } else {
+      alert("Invalid email or password.");
+    }
+  }
+
+  function signup() {
+    const email = document.getElementById("signupEmail").value;
+    const password = document.getElementById("signupPassword").value;
+
+    if (!validateEmail(email)) {
+      alert("Enter a valid email.");
+      return;
+    }
+
+    if (password.length < 8) {
+      alert("Password must be at least 8 characters.");
+      return;
+    }
+
+    localStorage.setItem("userEmail", email);
+    localStorage.setItem("userPassword", password);
+    localStorage.setItem("loggedInUser", email);
+    document.getElementById("auth-screen").style.display = "none";
+  }
+
+  // On page load
+  window.onload = () => {
+    if (!localStorage.getItem("loggedInUser")) {
+      document.getElementById("auth-screen").style.display = "flex";
+    } else {
+      document.getElementById("auth-screen").style.display = "none";
+    }
+  };
+      </script>
 </body>
 </html>

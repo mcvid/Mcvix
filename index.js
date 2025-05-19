@@ -59,15 +59,14 @@ navLinks.forEach(link => {
   });
 });
 
-// Event listener for the search button in right-panel
+
 const searchButton = document.querySelector('#home-right-panel .sign-up');
 if (searchButton) {
   searchButton.addEventListener('click', () => {
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
       searchInput.focus();
-      // Removed scrollIntoView to delete scrolling prompt
-      // searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
     }
   });
 }
@@ -337,145 +336,94 @@ const avatar = document.getElementById('profileToggle');
         }
       });
     });
+    function validateEmail(e) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+    }
+  
+    // --- Toggle Forms ---
     function showSignup() {
-      document.querySelector('.auth-form').style.display = "none";
-      document.getElementById('signup-form').style.display = "block";
+      loginForm.style.display = 'none';
+      signupForm.style.display = 'block';
     }
-  
     function showLogin() {
-      document.querySelector('.auth-form').style.display = "block";
-      document.getElementById('signup-form').style.display = "none";
+      signupForm.style.display = 'none';
+      loginForm.style.display = 'block';
     }
   
-    // Login logic
+    // --- Real‑time Validation ---
+    function validateLogin() {
+      const ok = validateEmail(email.value) && password.value.length >= 8;
+      loginBtn.disabled = !ok;
+    }
+    function validateSignup() {
+      const ok = validateEmail(signupEmail.value) && signupPassword.value.length >= 8;
+      signupBtn.disabled = !ok;
+    }
+  
+    // --- Core Logic ---
     function login() {
-      const email = document.getElementById("email").value;
-      const pass = document.getElementById("password").value;
-      const storedEmail = localStorage.getItem("userEmail");
-      const storedPass = localStorage.getItem("userPassword");
+      const e = email.value, p = password.value;
+      const stored = JSON.parse(localStorage.getItem(e) || 'null');
   
-      if (!email || !pass) return alert("Fill in all fields.");
-      if (pass.length < 8) return alert("Password must be at least 8 characters.");
-  
-      if (email === storedEmail && pass === storedPass) {
-        localStorage.setItem("loggedInUser", email);
-        document.getElementById("auth-screen").style.display = "none";
-      } else {
-        alert("Invalid credentials.");
+      if (!stored) {
+        return alert("Account doesn't exist.");
       }
+      if (stored.password !== p) {
+        return alert("Wrong password.");
+      }
+      localStorage.setItem("loggedInUser", e);
+      window.location.href = 'home.html';
     }
   
-    // Signup logic
     function signup() {
-      const email = document.getElementById("signupEmail").value;
-      const pass = document.getElementById("signupPassword").value;
-  
-      if (!email.includes("@") || !email.includes(".")) return alert("Enter a valid email.");
-      if (pass.length < 8) return alert("Password must be at least 8 characters.");
-  
-      localStorage.setItem("userEmail", email);
-      localStorage.setItem("userPassword", pass);
-      localStorage.setItem("loggedInUser", email);
-      document.getElementById("auth-screen").style.display = "none";
-    }
-  
-    // Block access if not logged in
-    window.onload = () => {
-      if (!localStorage.getItem("loggedInUser")) {
-        document.getElementById("auth-screen").style.display = "flex";
-      } else {
-        document.getElementById("auth-screen").style.display = "none";
+      const e = signupEmail.value, p = signupPassword.value;
+      if (localStorage.getItem(e)) {
+        return alert("Account already exists. Please log in.");
       }
-    };
-    const form = document.getElementById("authForm");
-const toggleLink = document.getElementById("toggleLink");
-const formTitle = document.getElementById("formTitle");
-const toggleFormText = document.getElementById("toggleFormText");
-const errorMsg = document.getElementById("errorMsg");
-
-let isLogin = true;
-
-toggleLink.addEventListener("click", () => {
-  isLogin = !isLogin;
-  formTitle.textContent = isLogin ? "Login" : "Sign Up";
-  toggleFormText.innerHTML = isLogin
-    ? `Don't have an account? <span id="toggleLink">Sign up</span>`
-    : `Already have an account? <span id="toggleLink">Login</span>`;
-  errorMsg.textContent = "";
-  document.getElementById("toggleLink").addEventListener("click", toggleLink.click);
-});
-
-form.addEventListener("submit")
-function validatePassword(password) {
-  const re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{10,}$/;
-  return re.test(password);
-}
-document.addEventListener('DOMContentLoaded', () => {
-  const authForm = document.getElementById('authForm');
-  const formTitle = document.getElementById('form-title');
-  const submitBtn = document.getElementById('submitBtn');
-  const toggleLink = document.getElementById('toggleLink');
-  const toggleText = document.getElementById('toggleText');
-
-  let isLogin = true;
-
-  // Toggle between Login and Sign Up
-  toggleLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    isLogin = !isLogin;
-    formTitle.textContent = isLogin ? 'Log In' : 'Sign Up';
-    submitBtn.textContent = isLogin ? 'Log In' : 'Sign Up';
-    toggleText.innerHTML = isLogin
-      ? `Don't have an account? <a href="#" id="toggleLink">Sign Up</a>`
-      : `Already have an account? <a href="#" id="toggleLink">Log In</a>`;
-  });
-
-  // Form Submission
-  authForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = authForm.email.value.trim();
-    const password = authForm.password.value.trim();
-
-    if (!validateEmail(email)) {
-      alert('Please enter a valid email address.');
-      return;
+      localStorage.setItem(e, JSON.stringify({ password: p }));
+      localStorage.setItem("loggedInUser", e);
+      window.location.href = 'home.html';
     }
-
-    if (password.length < 8) {
-      alert('Password must be at least 8 characters long.');
-      return;
-    }
-
-    if (isLogin) {
-      // Log In Logic
-      const storedUser = JSON.parse(localStorage.getItem(email));
-      if (storedUser && storedUser.password === password) {
-        alert('Login successful!');
-        // Redirect to home page or dashboard
-        window.location.href = 'home.html';
-      } else {
-        alert('Invalid email or password.');
-      }
-    } else {
-      // Sign Up Logic
-      if (localStorage.getItem(email)) {
-        alert('An account with this email already exists.');
+  
+    function handleCredentialResponse(response) {
+    
+      const payload = JSON.parse(atob(response.credential.split('.')[1]));
+      const email = payload.email;
+      if (!localStorage.getItem(email)) {
+        alert("No account found for " + email);
         return;
       }
-      const user = { email, password };
-      localStorage.setItem(email, JSON.stringify(user));
-      alert('Account created successfully! Please log in.');
-      // Switch to login view
-      isLogin = true;
-      formTitle.textContent = 'Log In';
-      submitBtn.textContent = 'Log In';
-      toggleText.innerHTML = `Don't have an account? <a href="#" id="toggleLink">Sign Up</a>`;
+      localStorage.setItem("loggedInUser", email);
+      window.location.href = 'home.html';
     }
-  });
+  
+   
+    window.addEventListener('DOMContentLoaded', () => {
+      
+      window.email = document.getElementById('email');
+      window.password = document.getElementById('password');
+      window.signupEmail = document.getElementById('signupEmail');
+      window.signupPassword = document.getElementById('signupPassword');
+      window.loginBtn = document.getElementById('login-btn');
+      window.signupBtn = document.getElementById('signup-btn');
+      window.loginForm = document.getElementById('login-form');
+      window.signupForm = document.getElementById('signup-form');
+  
 
-  // Email Validation Function
-  function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  }
-});
+      if (!localStorage.getItem('loggedInUser')) {
+        document.getElementById('auth-screen').style.display = 'flex';
+      } else {
+        document.getElementById('auth-screen').style.display = 'none';
+      
+      }
+  
+  
+      google.accounts.id.initialize({
+        client_id: '642285597123-069m3g4j8t49if8u2dp626fi3e02h25u.apps.googleusercontent.com',
+        callback: handleCredentialResponse
+      });
+      google.accounts.id.renderButton(
+        document.getElementById('g-signin2'),
+        { theme: 'outline', size: 'large' }
+      );
+    });

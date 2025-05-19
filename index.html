@@ -10,21 +10,32 @@
 </head>
 <body>
   <div id="auth-screen" class="auth-screen">
-    <div class="auth-form">
+    <!-- LOGIN FORM -->
+    <div class="auth-form" id="login-form">
       <h2>Welcome Back</h2>
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="password" id="password" placeholder="Password (min 8 chars)" required />
-      <button onclick="login()">Login</button>
-      <p>Don't have an account? <span onclick="showSignup()">Sign up</span></p>
+      <input type="email" id="email" placeholder="Email" required oninput="validateLogin()" />
+      <input type="password" id="password" placeholder="Password (min 8 chars)" required oninput="validateLogin()" />
+      <button id="login-btn" onclick="login()" disabled>Login</button>
+      <p>
+        Don’t have an account?
+        <span onclick="showSignup()" class="switch-link"><a href="">Sign up</a></span>
+      </p>
+      <div id="g-signin2"></div>
     </div>
   
+    <!-- SIGNUP FORM -->
     <div class="auth-form" id="signup-form" style="display:none;">
       <h2>Create Account</h2>
-      <input type="email" id="signupEmail" placeholder="Email" required />
-      <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" required />
-      <button onclick="signup()">Sign Up</button>
-      <p>Already have an account? <span onclick="showLogin()">Log in</span></p>
+      <input type="email" id="signupEmail" placeholder="Email" required oninput="validateSignup()" />
+      <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" required oninput="validateSignup()" />
+      <button id="signup-btn" onclick="signup()" disabled>Sign Up</button>
+      <p>
+        Already have an account?
+        <span onclick="showLogin()" class="switch-link">Log in</span>
+      </p>
     </div>
+  </div>
+  
   </div>
     <header class="head">
        <div class="top-bar">
@@ -568,6 +579,7 @@
     <span class="label">Liked</span>
   </a>
 </div>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="index.js"></script>
 </body>
 </html>
