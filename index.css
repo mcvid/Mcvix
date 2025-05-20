@@ -1395,7 +1395,11 @@ section button{
   color: #ccc;
   line-height: 1.4;
 }
+.premium-btn{
+  display: none;
+}
 .playlist-grid-wrapper {
+
   padding: 5px;
   width: 100vw;
   overflow-x: auto;
@@ -1403,7 +1407,8 @@ section button{
 }
 
 .playlist-grid {
-  display: grid;
+  display: none;
+  
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   min-width: 800px; /* fixed min width to prevent layout shift */
@@ -1413,6 +1418,9 @@ section button{
 
 .playlist-card:hover {
   background: #282828;
+}
+#g-signin2{
+  margin: 20px;
 }
 
 
@@ -1620,36 +1628,15 @@ section button{
     display: none !important;
   }
   .tooltip-container:last-child {
-    position: fixed !important;
-    top: 0;
+    position: fixed ;
+    top: 1%;
     left: 0;
-    margin: 0 !important;
-    z-index: 10002 !important;
+    padding: 5px;
+    margin: 10px;
+    z-index: 10002 ;
   }
-  .filter-bar {
-    position: fixed !important;
-    top: 0;
-    left: 50px;
-    right: 0;
-    background: #121212;
-    border-bottom: 1px solid #2a2a2a;
-    padding: 8px 16px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    z-index: 10001;
-  }
-  .buttons {
-    position: fixed !important;
-    top: 40px;
-    left: 50px;
-    right: 0;
-    background: #121212;
-    padding: 4px 16px;
-    display: flex;
-    gap: 10px;
-    z-index: 10001;
-  }
+  
+  
 }
   .side-bar .buttons,
   .side-bar .nav-links {
