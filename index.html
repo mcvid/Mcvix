@@ -6,72 +6,29 @@
     <title>Mcvix | Feel the vibe</title>
     <link rel="shortcut icon" href="image copy 6.png" type="image/x-icon">
     <link rel="stylesheet" href="index.css">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-  <div id="auth-screen" class="auth-screen">
+  <div id="overlay">
+    <div class="form-container">
+      <h1 id="form-title">Sign up to start listening</h1>
 
-    <div class="auth-form" id="login-form">
-      <h2>Welcome Back</h2>
-      <input style="width: 380px;"
-        type="email"
-        id="email"
-        placeholder="Email"
-        oninput="validateLogin()"
-      />
-      <div class="password-wrapper">
-        <input
-          type="password"
-          id="password"
-          placeholder="Password (min 8 chars)"
-          oninput="validateLogin()"
-        />
-        <span class="toggle-password" onclick="togglePassword('password', this)">
-         
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="eye-icon" viewBox="0 0 16 16">
-            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8z"/>
-            <path d="M8 5.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5z"/>
-          </svg>
-        </span>
-      </div>
-      <button id="login-btn" onclick="login()" style="margin-top: 20px;">Login</button>
-      <div id="g-signin2" style="margin-top: 20px; width: 400px;"></div>
-      <p>
-        Don’t have an account?
-        <span onclick="showSignup()" class="switch-link">Sign up</span>
-      </p>
-    </div>
+   
+      <form id="auth-form">
+        <input type="email" id="email" placeholder="Email address" required>
+        <input type="password" id="password" placeholder="Password (min 6 chars)" minlength="6" required>
+        <div id="google-signin-button" class="auth-field"></div>
 
-    <div class="auth-form" id="signup-form" style="display:none;">
-      <h2>Create Account</h2>
-      <input
-        type="email"
-        id="signupEmail"
-        placeholder="Email"
-        oninput="validateSignup()"
-      />
-      <div class="password-wrapper">
-        <input
-          type="password"
-          id="signupPassword"          
-          placeholder="Password (min 8 chars)"
-          oninput="validateSignup()"
-        />
-        <span class="toggle-password" onclick="togglePassword('signupPassword', this)">
-          <!-- your eye SVG -->
-        </span>
-      </div>
-      <button id="signup-btn" onclick="signup()">Sign Up</button>
-      <p>
-        Have an account?
-        <span onclick="showLogin()" class="switch-link">Log in</span>
+        <button type="submit" id="submit-btn">Sign Up</button>
+      </form>
+      <p id="toggle-text">
+        Already have an account? <a href="#" id="toggle-link">Log in here</a>
       </p>
+      <p id="error-msg" style="color: #e74c3c;"></p>
     </div>
-    
   </div>
 
-  <div id="app" style="display:none;">
+  <div id="main-content" >
   <header class="head">
      <div class="top-bar">
       <img class="logo" src="image copy 6.png" >
@@ -597,11 +554,11 @@
 <div class="playing">
 </div>
 <div class="bottom-nav">
-<a href="/index.html" class="nav-item" data-section="home">
+<a href="#" class="nav-item" data-section="home">
   <i class="fa fa-home"></i>
   <span class="label">Home</span>
 </a>
-<a href="library.html" class="nav-item" data-section="library">
+<a href="#" class="nav-item" data-section="library">
   <i class="fas fa-book"></i>
   <span class="label">Library</span>
 </a>
@@ -619,367 +576,137 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="index.js"></script>
 <script>
-function signup() {
-  const e = signupEmail.value.trim();
-  const p = signupPassword.value;
-
-  if (!validEmail(e)) {
-    alert("Enter a valid email.");
-    return;
-  }
-  if (p.length < 8) {
-    alert("Password must contain at least 8 characters");
-    return;
-  }
-  if (localStorage.getItem(e)) {
-    alert("That account already exists. Please log in.");
-    return showLogin();
+  // Decode Google ID token payload
+  function decodeJwtResponse(token) {
+    let base64Url = token.split('.')[1];
+    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
   }
 
-  // Save the new account
-  localStorage.setItem(e, JSON.stringify({ password: p }));
-  // Mark as logged in
-  localStorage.setItem("loggedIn", "true");
-  localStorage.setItem("currentUser", e);
-
-  showApp();
-}
-
-  function togglePassword(fieldId, toggleIcon) {
-    const input = document.getElementById(fieldId);
-    if (!input) return;
-  
-    if (input.type === 'password') {
-      input.type = 'text';
+  // Toggle between Sign Up and Log In
+  let isSignup = true;
+  const formTitle = document.getElementById('form-title');
+  const submitBtn = document.getElementById('submit-btn');
+  const toggleTextP = document.getElementById('toggle-text');
+  const errorMsg = document.getElementById('error-msg');
+  function toggleForm(e) {
+    e.preventDefault();
+    isSignup = !isSignup;
+    if (isSignup) {
+      formTitle.textContent = "Sign up to start listening";
+      submitBtn.textContent = "Sign Up";
+      toggleTextP.innerHTML = 'Already have an account? <a href="#" id="toggle-link">Log in here</a>';
     } else {
-      input.type = 'password';
+      formTitle.textContent = "Log in to continue";
+      submitBtn.textContent = "Log In";
+      toggleTextP.innerHTML = 'Don\'t have an account? <a href="#" id="toggle-link">Sign up here</a>';
     }
-  }function handleCredentialResponse(response) {
-    const payload = JSON.parse(atob(response.credential.split('.')[1]));
-    const email = payload.email;
-  
-    // Optionally: store user info in localStorage
-    localStorage.setItem("googleUser", JSON.stringify({ email }));
-    localStorage.setItem("loggedIn", "true");
-  
-    // Show the app
-    showApp();
+    errorMsg.textContent = "";
+    document.getElementById('toggle-link').addEventListener('click', toggleForm);
+    validateInputs();
   }
-  
-  window.addEventListener("DOMContentLoaded", () => {
-    // Existing init logic...
-  
-    // Initialize Google Sign-In
-    if (window.google && google.accounts && google.accounts.id) {
-      google.accounts.id.initialize({
-        client_id: '64228559712369m3g4j8t49if8u2dp626fi3e02h25u.apps.googleusercontent.com',
-        callback: handleCredentialResponse,
-      });
-  
-      google.accounts.id.renderButton(
-        document.getElementById("g-signin2"),
-        { theme: "outline", size: "large" }
-      );
-  
-      // Try auto-login if already signed in
-      google.accounts.id.prompt(); // This shows the One Tap if allowed
-    }
-  });
-  
-  
-    function signup() {
-      const e = signupEmail.value.trim();
-      const p = signupPassword.value;
-      if (localStorage.getItem(e)) {
-        alert("That account already exists. Please log in.");
-        return showLogin();
-      }
-      localStorage.setItem(e, JSON.stringify({ password: p }));
-      localStorage.setItem(STORAGE_KEY, "true");
-      showApp();
-    }
-  
-    // — Login logic —
-    function login() {
-      const e = emailInput.value.trim();
-      const p = passwordInput.value;
-      const rec = JSON.parse(localStorage.getItem(e) || 'null');
-      if (!rec) {
-        alert("No such account – please sign up.");
-        return showSignup();
-      }
-      if (rec.password !== p) {
-        return alert("Incorrect password.");
-      }
-      localStorage.setItem(STORAGE_KEY, "true");
-      showApp();
-    }
-  
-    // — Logout (if you need it) —
+  document.getElementById('toggle-link').addEventListener('click', toggleForm);
 
-  
-    // — Initialization on page load —
-    window.addEventListener('DOMContentLoaded', () => {
-      // Grab elements
-      authScreen     = document.getElementById("auth-screen");
-      loginForm      = document.getElementById("login-form");
-      signupForm     = document.getElementById("signup-form");
-      app            = document.getElementById("app");
-      emailInput     = document.getElementById("email");
-      passwordInput  = document.getElementById("password");
-      signupEmail    = document.getElementById("signupEmail");
-      signupPassword = document.getElementById("signupPassword");
-      loginBtn       = document.getElementById("login-btn");
-      signupBtn      = document.getElementById("signup-btn");
-  
-      // Wire up real‑time validation
-      emailInput.addEventListener('input',   validateLogin);
-      passwordInput.addEventListener('input',validateLogin);
-      signupEmail.addEventListener('input',   validateSignup);
-      signupPassword.addEventListener('input',validateSignup);
-  
-      // Wire up toggle links
-      document.querySelector('.switch-link[onclick*="showSignup"]').addEventListener('click', showSignup);
-      document.querySelector('.switch-link[onclick*="showLogin"]').addEventListener('click', showLogin);
-  
-      // Wire up buttons
-      loginBtn.addEventListener('click', login);
-      signupBtn.addEventListener('click', signup);
-  
-      // Decide initial view
-      if (localStorage.getItem(STORAGE_KEY) === "true") {
-        showApp();
+  // Real-time validation of email/password
+  const emailInput = document.getElementById('email');
+  const passInput = document.getElementById('password');
+  function validateInputs() {
+    let emailValid = emailInput.checkValidity();
+    let passValid  = passInput.checkValidity();
+    if (!emailValid) {
+      errorMsg.textContent = "Please enter a valid email address.";
+    } else if (!passValid) {
+      errorMsg.textContent = "Password must be at least 6 characters.";
+    } else {
+      errorMsg.textContent = "";
+    }
+    submitBtn.disabled = !emailValid || !passValid;
+  }
+  emailInput.addEventListener('input', validateInputs);
+  passInput.addEventListener('input', validateInputs);
+
+  // Helper to get/set accounts object in localStorage
+  function getAccounts() {
+    return JSON.parse(localStorage.getItem('accounts') || '{}');
+  }
+  function saveAccounts(accounts) {
+    localStorage.setItem('accounts', JSON.stringify(accounts));
+  }
+  function getSessionUser() {
+    return localStorage.getItem('sessionUser');
+  }
+
+  // Handle form submission (Sign Up or Log In)
+  document.getElementById('auth-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    let email = emailInput.value.trim().toLowerCase();
+    let password = passInput.value;
+    let accounts = getAccounts();
+
+    if (isSignup) {
+      // Sign-up flow
+      if (accounts[email]) {
+        errorMsg.textContent = "Account already exists. Please log in.";
       } else {
-        showLogin();
+        accounts[email] = { password: password };
+        saveAccounts(accounts);
+        localStorage.setItem('sessionUser', email);
+        showMainContent(email);
       }
-    });
-    const validEmail = e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
-  
-  function showLogin() {
-    loginForm.style.display    = 'block';
-    signupForm.style.display   = 'none';
-    authScreen.style.display   = 'flex';
-    app.style.display          = 'none';
-  }
-  function showSignup() {
-    loginForm.style.display    = 'none';
-    signupForm.style.display   = 'block';
-    authScreen.style.display   = 'flex';
-    app.style.display          = 'none';
-  }
-  function showApp() {
-    authScreen.style.display   = 'none';
-    app.style.display          = 'block';
-  }
-  
-  // Real‑time validation
-  function validateLogin() {
-    loginBtn.disabled = !(
-      validEmail(email.value.trim()) &&
-      password.value.length >= 8
-    );
-  }
-  function validateSignup() {
-    signupBtn.disabled = !(
-      validEmail(signupEmail.value.trim()) &&
-      signupPassword.value.length >= 8
-    );
-  }
-  
-  // Signup: store a simple record and mark logged in
-  function signup() {
-    const e = signupEmail.value.trim();
-    const p = signupPassword.value;
-    if (localStorage.getItem(e)) {
-      return alert("That account exists already – please log in.");
-    }
-    localStorage.setItem(e, JSON.stringify({password:p}));
-    localStorage.setItem("loggedIn","true");
-    showApp();
-  }
-  
-  // Login: check against storage, then mark logged in
-  function login() {
-    const e = email.value.trim();
-    const p = password.value;
-    const rec = JSON.parse(localStorage.getItem(e) || 'null');
-    if (!rec)     return alert("No such account – please sign up.");
-    if (rec.password !== p) return alert("Wrong password.");
-    localStorage.setItem("loggedIn","true");
-    showApp();
-  }
-  function login() {
-    const e = emailInput.value.trim();
-    const p = passwordInput.value;
-  
-    if (p.length < 8) {
-      return alert("Password must contain at least 8 characters");
-    }
-  
-    const stored = JSON.parse(localStorage.getItem(e) || 'null');
-    if (!stored) return alert("Account doesn't exist. Please sign up first.");
-    if (stored.password !== p) return alert("Incorrect password.");
-  
-    document.getElementById('auth-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-  }
-  function signup() {
-    const e = signupEmail.value.trim();
-    const p = signupPassword.value;
-  
-    if (p.length < 8) {
-      return alert("Password must contain at least 8 characters");
-    }
-  
-    if (localStorage.getItem(e)) {
-      return alert("Account already exists. Please log in.");
-    }
-  
-    localStorage.setItem(e, JSON.stringify({ password: p }));
-    document.getElementById('auth-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-  }
-  
-  function logout() {
-    localStorage.removeItem("loggedIn");
-    showLogin();
-  }
-  if (loggedIn==="true") showApp();
-  else showLogin();
-  
-  
-  window.addEventListener('DOMContentLoaded',()=>{
-    window.authScreen     = document.getElementById("auth-screen");
-    window.loginForm      = document.getElementById("login-form");
-    window.signupForm     = document.getElementById("signup-form");
-    window.app            = document.getElementById("app");
-    window.email          = document.getElementById("email");
-    window.password       = document.getElementById("password");
-    window.signupEmail    = document.getElementById("signupEmail");
-    window.signupPassword = document.getElementById("signupPassword");
-    window.loginBtn       = document.getElementById("login-btn");
-    window.signupBtn      = document.getElementById("signup-btn");
-  
-    // Attach real‑time checks
-    email.addEventListener('input',   validateLogin);
-    password.addEventListener('input',validateLogin);
-    signupEmail.addEventListener('input',   validateSignup);
-    signupPassword.addEventListener('input',validateSignup);
-  
-    // Show app if already logged in
-    if (localStorage.getItem("loggedIn")==="true") {
-      showApp();
     } else {
-      showLogin();
+      // Login flow
+      if (!accounts[email]) {
+        errorMsg.textContent = "No account found with that email.";
+      } else if (accounts[email].password !== password) {
+        errorMsg.textContent = "Incorrect password.";
+      } else {
+        localStorage.setItem('sessionUser', email);
+        showMainContent(email);
+      }
     }
   });
-  
-  
-    sessionStorage.setItem('loggedIn', 'yes');
-    if (sessionStorage.getItem('loggedIn')) {
-    document.getElementById('auth-screen').style.display = 'none';
-    document.getElementById('app').style.display         = 'block';
-  }
-    function validateEmail(e) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
-    }
-    function login() {
-    const e = emailInput.value.trim();
-    const p = passwordInput.value;
-    const stored = JSON.parse(localStorage.getItem(e) || 'null');
-    if (!stored)          return alert("Account doesn't exist. Please sign up first.");
-    if (stored.password !== p) return alert("Incorrect password.");
-  
-    // Hide auth, show app
-    document.getElementById('auth-screen').style.display = 'none';
-    document.getElementById('app').style.display         = 'block';
-  }
-  
-  function signup() {
-    const e = signupEmail.value.trim();
-    const p = signupPassword.value;
-    if (localStorage.getItem(e)) {
-      return alert("Account already exists. Please log in.");
-    }
-    localStorage.setItem(e, JSON.stringify({ password: p }));
-  
-    // Hide auth, show app
-    document.getElementById('auth-screen').style.display = 'none';
-    document.getElementById('app').style.display         = 'block';
-  }
-    // — Toggle between forms —
-    function showSignup() {
-      loginForm.style.display  = 'none';
-      signupForm.style.display = 'block';
-    }
-    function showLogin() {
-      signupForm.style.display = 'none';
-      loginForm.style.display  = 'block';
-    }
-  
-    // — Enable/disable buttons in real time —
-    function validateLogin() {
-      const ok = validateEmail(emailInput.value)
-              && passwordInput.value.length >= 8;
-      loginBtn.disabled = !ok;
-    }
-  
-    function validateSignup() {
-      const ok = validateEmail(signupEmail.value)
-              && signupPassword.value.length >= 8;
-      signupBtn.disabled = !ok;
-    }
-  
-  {
-      // Store user credential under their email key
-      localStorage.setItem(e, JSON.stringify({ password: p }));
-      // Immediately go to home
-      window.location.href = 'home.html';
-    }
-  
-  
-  
-    // — Google Sign‑In callback (optional) —
-    function handleCredentialResponse(response) {
-      const payload = JSON.parse(atob(response.credential.split('.')[1]));
-      const e = payload.email;
-      if (!localStorage.getItem(e)) {
-        return alert("No account found for " + e);
-      }
-      window.location.href = 'index.html';
-    }
-  
-    // — On load, wire up everything —
-    window.addEventListener('DOMContentLoaded', () => {
-      // Element refs
-      window.emailInput     = document.getElementById('email');
-      window.passwordInput  = document.getElementById('password');
-      window.signupEmail    = document.getElementById('signupEmail');
-      window.signupPassword = document.getElementById('signupPassword');
-      window.loginBtn       = document.getElementById('login-btn');
-      window.signupBtn      = document.getElementById('signup-btn');
-      window.loginForm      = document.getElementById('login-form');
-      window.signupForm     = document.getElementById('signup-form');
-  
-      // Attach validation handlers
-      emailInput.addEventListener('input', validateLogin);
-      passwordInput.addEventListener('input', validateLogin);
-      signupEmail.addEventListener('input', validateSignup);
-      signupPassword.addEventListener('input', validateSignup);
-  
-      // Initialize Google Sign‑In if you’re using it:
-      if (window.google && google.accounts && google.accounts.id) {
-        google.accounts.id.initialize({
-          client_id: 'YOUR_GOOGLE_CLIENT_ID',
-          callback: handleCredentialResponse
-        });
-        google.accounts.id.renderButton(
-          document.getElementById('g-signin2'),
-          { theme: 'outline', size: 'large' }
-        );
-      }
-    });
-  </script>
 
+  // Google Sign-In callback
+  function handleGoogleResponse(response) {
+    const data = decodeJwtResponse(response.credential);
+    const email = data.email;
+    let accounts = getAccounts();
+    if (!accounts[email]) {
+      accounts[email] = { password: null, name: data.name || '' };
+      saveAccounts(accounts);
+    }
+    localStorage.setItem('sessionUser', email);
+    showMainContent(email, data.name);
+  }
+
+  // Initialize Google Sign-In and handle existing session
+  window.onload = function() {
+    google.accounts.id.initialize({
+      client_id: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com",
+      callback: handleGoogleResponse
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("google-signin-button"),
+      { theme: "outline", size: "large", width: 300, text: "signup_with" }
+    );
+    // Prefill email if previously logged in
+    const savedUser = getSessionUser();
+    if (savedUser) {
+      emailInput.value = savedUser;
+    }
+    validateInputs();
+  };
+
+  // Show main interface after successful login/signup
+  function showMainContent(email, name) {
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+    const displayName = name || email.split('@')[0];
+    document.getElementById('user-name').textContent = displayName;
+  }
+</script>
 </body>
 </html>
