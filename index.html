@@ -159,6 +159,8 @@
       <p class="mix-description">
         <span class="name">Adele </span><br>Find out the best and more
       </p>
+     <audio id="dailyMixAudio" src="your-song-file.mp3"></audio>
+
     </div>
     <div class="daily-mix-card">
       <div class="image-wrapper">
@@ -173,6 +175,8 @@
       <p class="mix-description">
         <span class="name">Ice Spice</span><br>Find out the best and more
       </p>
+     <audio id="dailyMixAudio" src="your-song-file.mp3"></audio>
+
     </div>
     <div class="daily-mix-card">
       <div class="image-wrapper">
@@ -576,6 +580,19 @@
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="index.js"></script>
 <script>
+ <script>
+  const card = document.querySelector('.daily-mix-card');
+  const audio = document.getElementById('dailyMixAudio');
+
+  card.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause(); // optional: toggle pause/play
+    }
+  });
+</script>
+
   // Decode Google ID token payload
   function decodeJwtResponse(token) {
     let base64Url = token.split('.')[1];
