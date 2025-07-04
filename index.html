@@ -581,19 +581,52 @@
 <script src="index.js"></script>
 <script>
  <script>
-  const card = document.querySelector('.daily-mix-card');
-  const audio = document.getElementById('dailyMixAudio');
+  <script>
+  const audioPlayer = document.getElementById('audioPlayer');
+  let currentCard = null;
 
-  card.addEventListener('click', () => {
-    if (audio.paused) {
-      audio.play();
-    } else {
-      audio.pause(); // optional: toggle pause/play
-    }
+  document.querySelectorAll('.daily-mix-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const audioSrc = card.getAttribute('data-audio');
+
+      if (currentCard !== card) {
+        // New card clicked
+        audioPlayer.src = audioSrc;
+        audioPlayer.play();
+        updateIcons(currentCard, false);  // reset old icon
+        updateIcons(card, true);          // set new icon to pause
+        currentCard = card;
+      } else {
+        // Same card clicked again — toggle play/pause
+        if (audioPlayer.paused) {
+          audioPlayer.play();
+          updateIcons(card, true);
+        } else {
+          audioPlayer.pause();
+          updateIcons(card, false);
+        }
+      }
+    });
   });
-</script>
 
-  // Decode Google ID token payload
+  function updateIcons(card, isPlaying) {
+    if (!card) return;
+    const icon = card.querySelector('.play-icon i');
+    if (icon) {
+      icon.classList.toggle('fa-play', !isPlaying);
+      icon.classList.toggle('fa-pause', isPlaying);
+    }
+  }
+
+  // Optional: reset icon when song ends
+  audioPlayer.addEventListener('ended', () => {
+    updateIcons(currentCard, false);
+    currentCard = null;
+  });
+
+
+
+
   function decodeJwtResponse(token) {
     let base64Url = token.split('.')[1];
     let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
